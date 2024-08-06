@@ -1,9 +1,16 @@
 import { Container } from "@/components/container";
 import { Spotlight } from "@/components/ui/spotlight";
 import profile from "@/public/headshot.jpeg";
-import { Github, Instagram, Linkedin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  GitHubIcon,
+  InstagramIcon,
+  LinkedInIcon,
+  XIcon,
+} from "@/components/social-icons";
+import BlurAppear from "@/components/blur-text-appear";
+import Appear from "@/components/appear";
 
 function ProfilePicture() {
   return (
@@ -25,10 +32,7 @@ function ProfilePicture() {
   );
 }
 
-function AetherLogo({
-  className,
-  ...props
-}: React.SVGProps<SVGSVGElement> & { className?: string }) {
+function AetherLogo(props: React.ComponentPropsWithoutRef<"svg">) {
   return (
     <svg
       width="26"
@@ -36,7 +40,6 @@ function AetherLogo({
       viewBox="0 0 26 21"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={className}
       {...props}
     >
       <path
@@ -69,6 +72,24 @@ function AetherLogo({
   );
 }
 
+function SocialLink({
+  icon: Icon,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof Link> & {
+  icon: React.ComponentType<{ className?: string }>;
+}) {
+  return (
+    <Link className="group -m-1 p-1" {...props}>
+      <Icon className="h-6 w-6 fill-zinc-500 transition group-hover:fill-zinc-600 dark:fill-zinc-400 dark:group-hover:fill-zinc-300" />
+    </Link>
+  );
+}
+
+const appearVariants = {
+  hidden: { y: 10, opacity: 0, filter: "blur(10px)" },
+  visible: { y: 0, opacity: 1, filter: "blur(0px)" },
+};
+
 const Hero = () => {
   return (
     <Container>
@@ -76,29 +97,56 @@ const Hero = () => {
         <Spotlight className="-top-80 -left-80 -z-10" fill="white" />
         <ProfilePicture />
         <h1 className="mt-6 font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
-          Hi, I&apos;m Payam 👋🏻
+          <BlurAppear>Hi, I&apos;m Payam 👋🏻</BlurAppear>
         </h1>
-        <h2 className="mt-3 text-foreground dark:bg-gradient-to-r from-white to-[#C6C6C6] bg-clip-text dark:text-transparent w-fit text-lg md:text-xl lg:text-2xl">
-          Web Developer and Designer
-        </h2>
-        <p className="mt-8 max-w-2xl leading-relaxed md:text-xl opacity-85 font-[350]">
-          I&apos;m a full stack developer from Toronto. I&apos;m passionate
-          about building aesthetically pleasing user interfaces. Currently
-          building&nbsp;
-          <Link
-            href="https://aetherwebdesign.com"
-            className="px-[4.5px] h-[1.625rem] bg-white/10 rounded-md  inline-flex items-center border dark:border-white/10 text-sm"
-          >
-            <AetherLogo className="mr-2 inline-flex w-fit h-4" />
-            Aether
-          </Link>
-          .
-        </p>
-        <div className="flex gap-6 mt-8 *:size-6 *:text-zinc-800 *:dark:text-zinc-400">
-          <Instagram />
-          <Linkedin />
-          <Github />
-        </div>
+        {/* <Appear
+          variants={appearVariants}
+          transition={{ delay: 0.5, duration: 0.5 }}
+        >
+          <h2 className="mt-3 text-foreground dark:bg-gradient-to-r from-white to-[#C6C6C6] bg-clip-text dark:text-transparent w-fit text-lg md:text-xl lg:text-2xl">
+            Web Developer and Designer
+          </h2>
+        </Appear>
+        <Appear
+          variants={appearVariants}
+          transition={{ delay: 0.6, duration: 0.5 }}
+        >
+          <p className="mt-8 max-w-2xl leading-relaxed md:text-xl opacity-85 font-[350]">
+            I&apos;m a full stack developer from Toronto. I&apos;m passionate
+            about building aesthetically pleasing user interfaces. Currently
+            building&nbsp;
+            <Link
+              href="https://aetherwebdesign.com"
+              className="px-[4.5px] h-[1.625rem] bg-white/10 rounded-md  inline-flex items-center border dark:border-white/10 text-sm"
+            >
+              <AetherLogo className="mr-2 inline-flex w-fit h-4" />
+              Aether
+            </Link>
+            .
+          </p>
+        </Appear>
+        <Appear
+          variants={appearVariants}
+          transition={{ delay: 0.8, duration: 0.5 }}
+          className="mt-6 flex gap-6"
+        >
+          <SocialLink href="#" aria-label="Follow on X" icon={XIcon} />
+          <SocialLink
+            href="#"
+            aria-label="Follow on Instagram"
+            icon={InstagramIcon}
+          />
+          <SocialLink
+            href="#"
+            aria-label="Follow on GitHub"
+            icon={GitHubIcon}
+          />
+          <SocialLink
+            href="#"
+            aria-label="Follow on LinkedIn"
+            icon={LinkedInIcon}
+          />
+        </Appear> */}
       </section>
     </Container>
   );

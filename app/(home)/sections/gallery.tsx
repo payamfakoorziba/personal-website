@@ -7,18 +7,27 @@ import Chess from "@/public/gallery/chess.jpg";
 import Gym from "@/public/gallery/gym.jpg";
 import Marco from "@/public/gallery/marco.jpg";
 import Sunset from "@/public/gallery/sunset.jpg";
+import Appear from "@/components/appear";
 
 export { Jujitsu, Boys, Chess, Gym, Marco, Sunset };
 
 const Gallery = () => {
   return (
     <Container className="py-10 lg:py-14">
-      <section
+      <Appear
         className={cn(
           "relative",
           "grid grid-cols-2 grid-rows-4 md:grid-cols-3 md:grid-rows-3 gap-5 grid-flow-col",
           "*:overflow-hidden *:rounded-xl"
         )}
+        variants={{
+          hidden: { opacity: 0, filter: "blur(10px)" },
+          visible: { opacity: 1, filter: "blur(0px)" },
+        }}
+        transition={{
+          delay: 1,
+          duration: 0.75,
+        }}
       >
         <div className="absolute -inset-4 sm:-inset-8 bg-grid-small-black/15 dark:bg-grid-small-white/15 -z-20">
           <div className="absolute inset-x-0 top-0 h-[10%] bg-gradient-to-b from-background" />
@@ -80,7 +89,7 @@ const Gallery = () => {
             className="object-cover"
           />
         </div>
-      </section>
+      </Appear>
     </Container>
   );
 };

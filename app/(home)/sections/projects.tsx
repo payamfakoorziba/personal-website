@@ -65,7 +65,7 @@ const Projects = () => {
   return (
     <Container className="py-[30px] lg:py-10">
       <h3 className="text-xl md:text-2xl lg:text-3xl font-semibold">
-        projects
+        Recent Projects
       </h3>
       <div className="flex flex-col gap-y-8 mt-10">
         {projects.map((experience) => (
@@ -74,8 +74,8 @@ const Projects = () => {
             className="p-6 border rounded-xl relative flex flex-col min-h-[400px]"
           >
             <div className="flex flex-col md:flex-row md:justify-between md:items-start">
-              <h4 className="text-2xl">{experience.project}</h4>
-              <p className="font-light text-stone-600 dark:text-stone-300">
+              <h4 className="text-lg md:text-xl">{experience.project}</h4>
+              <p className="font-light text-stone-600 dark:text-stone-300 text-sm md:text-base">
                 {experience.date}
               </p>
             </div>
@@ -99,7 +99,7 @@ const Projects = () => {
               </Button>
             </div>
             <div
-              className="px-5 pt-5 relative mt-8 lg:absolute lg:bottom-0 lg:right-6 w-72 rounded-t-xl group overflow-hidden"
+              className="px-5 pt-5 relative mt-8 lg:absolute lg:bottom-0 lg:right-6 w-full sm:w-72 rounded-t-xl group overflow-hidden"
               style={{
                 backgroundImage: `linear-gradient(
                 ${Color(experience.color).hex()},
