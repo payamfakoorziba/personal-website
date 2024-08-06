@@ -99,7 +99,7 @@ const Hero = () => {
         <h1 className="mt-6 font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
           <BlurAppear>Hi, I&apos;m Payam 👋🏻</BlurAppear>
         </h1>
-        {/* <Appear
+        <Appear
           variants={appearVariants}
           transition={{ delay: 0.5, duration: 0.5 }}
         >
@@ -146,7 +146,7 @@ const Hero = () => {
             aria-label="Follow on LinkedIn"
             icon={LinkedInIcon}
           />
-        </Appear> */}
+        </Appear>
       </section>
     </Container>
   );
