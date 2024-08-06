@@ -22,7 +22,7 @@ const Header = () => {
           <ModeToggle />
         </div>
       </Container>
-      <nav className="hidden md:flex items-center h-10 px-6 rounded-full gap-x-10 fixed top-6 left-1/2 -translate-x-1/2 dark:bg-zinc-800 shadow-md">
+      <nav className="hidden md:flex items-center h-10 px-6 rounded-full gap-x-10 fixed top-6 left-1/2 -translate-x-1/2 bg-white dark:bg-zinc-800 shadow-md z-20">
         {navItems.map((item) => (
           <Link key={item.label} href={item.href}>
             {item.label}

@@ -1,23 +1,24 @@
 import { Container } from "@/components/container";
 import { Spotlight } from "@/components/ui/spotlight";
 import profile from "@/public/headshot.jpeg";
+import { Github, Instagram, Linkedin } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 function ProfilePicture() {
   return (
     <div
-      className="size-[80px] rounded-full grid place-content-center"
+      className="size-[60px] md:size-[80px] rounded-full grid place-content-center"
       style={{
         background:
           "conic-gradient(#DD00AF, #E002AC, #FF9F01, #FF9F01, #FFA100, #DD00AF)",
       }}
     >
-      <div className="size-[76px] rounded-full bg-background grid place-content-center">
+      <div className="size-[56px] md:size-[76px] rounded-full bg-background grid place-content-center">
         <Image
           src={profile}
           alt="Profile picture"
-          className="rounded-full size-[72px]"
+          className="rounded-full size-[52px] md:size-[72px]"
         />
       </div>
     </div>
@@ -74,13 +75,13 @@ const Hero = () => {
       <section className="py-10">
         <Spotlight className="-top-80 -left-80 -z-10" fill="white" />
         <ProfilePicture />
-        <h1 className="mt-4 font-semibold text-[60px]">
+        <h1 className="mt-6 font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
           Hi, I&apos;m Payam 👋🏻
         </h1>
-        <h2 className="text-foreground dark:bg-gradient-to-r from-white to-[#C6C6C6] bg-clip-text dark:text-transparent w-fit text-2xl">
+        <h2 className="mt-3 text-foreground dark:bg-gradient-to-r from-white to-[#C6C6C6] bg-clip-text dark:text-transparent w-fit text-lg md:text-xl lg:text-2xl">
           Web Developer and Designer
         </h2>
-        <p className="mt-8 max-w-2xl leading-relaxed text-xl opacity-85 font-[350]">
+        <p className="mt-8 max-w-2xl leading-relaxed md:text-xl opacity-85 font-[350]">
           I&apos;m a full stack developer from Toronto. I&apos;m passionate
           about building aesthetically pleasing user interfaces. Currently
           building&nbsp;
@@ -93,6 +94,11 @@ const Hero = () => {
           </Link>
           .
         </p>
+        <div className="flex gap-6 mt-8 *:size-6 *:text-zinc-800 *:dark:text-zinc-400">
+          <Instagram />
+          <Linkedin />
+          <Github />
+        </div>
       </section>
     </Container>
   );
