@@ -18,7 +18,9 @@ const Header = () => {
     <header className="border-b-[0.5px] border-black/15 dark:border-white/15 py-6 top-0 z-10">
       <Container>
         <div className="flex justify-between items-center">
-          <Logo />
+          <Link href="/">
+            <Logo />
+          </Link>
           <ModeToggle />
         </div>
       </Container>

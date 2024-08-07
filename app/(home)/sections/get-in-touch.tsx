@@ -3,7 +3,7 @@ import { Container } from "@/components/container";
 const GetInTouch = () => {
   return (
     <div className="relative">
-      <div className="absolute inset-0 bg-gradient-to-t from-[#303036] -z-10" />
+      <div className="absolute inset-0 dark:bg-gradient-to-t from-[#303036] -z-10" />
       <Container className="py-10">
         <div>
           <h3 className="text-xl md:text-2xl font-semibold">
