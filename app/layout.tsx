@@ -20,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className=" dark:bg-[#0c0a09]">
+    <html lang="en">
       <body className={cn(GeistSans.className, "relative")}>
         <ThemeProvider
           attribute="class"

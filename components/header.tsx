@@ -1,12 +1,15 @@
 import Link from "next/link";
 import { Container } from "./container";
 import { ModeToggle } from "./mode-toggle";
+import { Button } from "./ui/button";
+import { Menu } from "lucide-react";
+import HamburgerMenu from "./hamburger-menu";
 
 const navItems = [
-  { label: "About", href: "/" },
-  { label: "Blog", href: "/" },
-  { label: "Projects", href: "/" },
-  { label: "Contact", href: "/" },
+  { name: "About", href: "/" },
+  { name: "Blog", href: "/" },
+  { name: "Projects", href: "/" },
+  { name: "Contact", href: "/" },
 ];
 
 function Logo() {
@@ -21,13 +24,16 @@ const Header = () => {
           <Link href="/">
             <Logo />
           </Link>
-          <ModeToggle />
+          <div className="flex gap-x-4">
+            <HamburgerMenu />
+            <ModeToggle />
+          </div>
         </div>
       </Container>
       <nav className="hidden md:flex items-center h-10 px-6 rounded-full gap-x-10 absolute top-6 left-1/2 -translate-x-1/2 bg-white dark:bg-zinc-800 shadow-md z-20">
         {navItems.map((item) => (
-          <Link key={item.label} href={item.href} className="text-sm">
-            {item.label}
+          <Link key={item.name} href={item.href} className="text-sm">
+            {item.name}
           </Link>
         ))}
       </nav>

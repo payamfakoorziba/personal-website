@@ -24,6 +24,7 @@ const BlurAppear = ({
             transition={{
               delay: i * (staggerDelay || 0.1) + (delay || 0),
               duration: duration || 0.5,
+              ease: "easeOut",
             }}
             className="inline-block"
           >

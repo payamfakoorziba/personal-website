@@ -1,7 +1,6 @@
 import { Container } from "@/components/container";
 import { Spotlight } from "@/components/ui/spotlight";
-import profile from "@/public/headshot.jpeg";
-import Image from "next/image";
+
 import Link from "next/link";
 import {
   GitHubIcon,
@@ -11,26 +10,7 @@ import {
 } from "@/components/social-icons";
 import BlurAppear from "@/components/blur-text-appear";
 import Appear from "@/components/appear";
-
-function ProfilePicture() {
-  return (
-    <div
-      className="size-[60px] md:size-[80px] rounded-full grid place-content-center"
-      style={{
-        background:
-          "conic-gradient(#DD00AF, #E002AC, #FF9F01, #FF9F01, #FFA100, #DD00AF)",
-      }}
-    >
-      <div className="size-[56px] md:size-[76px] rounded-full bg-background grid place-content-center">
-        <Image
-          src={profile}
-          alt="Profile picture"
-          className="rounded-full size-[52px] md:size-[72px]"
-        />
-      </div>
-    </div>
-  );
-}
+import ProfilePicture from "../components/profile-picture";
 
 function AetherLogo(props: React.ComponentPropsWithoutRef<"svg">) {
   return (
@@ -79,7 +59,7 @@ function SocialLink({
   icon: React.ComponentType<{ className?: string }>;
 }) {
   return (
-    <Link className="group -m-1 p-1" {...props}>
+    <Link target="_blank" className="group -m-1 p-1" {...props}>
       <Icon className="h-6 w-6 fill-zinc-500 transition group-hover:fill-zinc-600 dark:fill-zinc-400 dark:group-hover:fill-zinc-300" />
     </Link>
   );
@@ -130,19 +110,23 @@ const Hero = () => {
           transition={{ delay: 0.8, duration: 0.5 }}
           className="mt-6 flex gap-6"
         >
-          <SocialLink href="#" aria-label="Follow on X" icon={XIcon} />
           <SocialLink
-            href="#"
+            href="https://www.instagram.com/payamfkz/"
             aria-label="Follow on Instagram"
             icon={InstagramIcon}
           />
           <SocialLink
-            href="#"
+            href="https://x.com/payamfkz"
+            aria-label="Follow on X"
+            icon={XIcon}
+          />
+          <SocialLink
+            href="https://github.com/payamfakoorziba"
             aria-label="Follow on GitHub"
             icon={GitHubIcon}
           />
           <SocialLink
-            href="#"
+            href="https://www.linkedin.com/in/payam-fakoorziba-b115071b3/"
             aria-label="Follow on LinkedIn"
             icon={LinkedInIcon}
           />
