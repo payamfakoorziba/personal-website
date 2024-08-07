@@ -26,6 +26,7 @@ const projects = [
     image: NavidBestGroup,
     color: "#D9A326",
     url: "https://navid-best-group.vercel.app/",
+    underDevelopment: true,
   },
   {
     project: "Bayview Glen Dental",
@@ -95,9 +96,16 @@ const Projects = () => {
               ))}
             </div>
             <div className="flex flex-col justify-between flex-1">
-              <p className="text-sm md:text-base mt-5 lg:max-w-[60%] leading-relaxed">
-                {experience.description}
-              </p>
+              <div>
+                <p className="text-sm md:text-base mt-5 lg:max-w-[60%] leading-relaxed">
+                  {experience.description}
+                </p>
+                {experience.underDevelopment && (
+                  <div className="text-xs px-2 py-1 rounded-md mt-4 border w-fit select-none">
+                    🚧&nbsp;&nbsp;Under active development
+                  </div>
+                )}
+              </div>
               <Button
                 size="sm"
                 variant="secondary"
