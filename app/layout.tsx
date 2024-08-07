@@ -4,6 +4,7 @@ import "./globals.css";
 import { Layout } from "@/components/layout";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
   title: {
@@ -30,6 +31,7 @@ export default function RootLayout({
         >
           <Layout>{children}</Layout>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
