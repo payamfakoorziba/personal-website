@@ -6,13 +6,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Button } from "./ui/button";
-
-const navItems = [
-  { name: "About", href: "/" },
-  { name: "Blog", href: "/" },
-  { name: "Projects", href: "/" },
-  { name: "Contact", href: "/" },
-];
+import navItems from "@/lib/navigation";
 
 const HamburgerMenu = () => {
   const [open, setOpen] = useState(false);
@@ -34,8 +28,8 @@ const HamburgerMenu = () => {
           className={cn(
             "fixed top-[80px] inset-x-2 px-4 py-2 bg-background shadow-xl rounded-lg z-20 focus:ring-0 focus:outline-none",
             // animations
-            "data-[state=open]:animate-in data-[state=open]:fade-in data-[state=open]:slide-in-from-top-[80px]",
-            "data-[state=closed]:animate-out data-[state=closed]:fade-out"
+            "data-[state=open]:animate-in data-[state=open]:fade-in data-[state=open]:slide-in-from-top-[80px] data-[state=open]:duration-300",
+            "data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:duration-200"
           )}
         >
           <div className="py-3 flex justify-between">
@@ -51,10 +45,25 @@ const HamburgerMenu = () => {
               <Link
                 key={item.name}
                 href={item.href}
-                className="py-2"
-                onClick={() => setOpen(false)}
+                className={cn(
+                  "py-2",
+                  !item.active &&
+                    "cursor-default pointer-events-none opacity-80"
+                )}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setOpen(false);
+                  setTimeout(() => {
+                    document
+                      .getElementById(item.href.slice(2))
+                      ?.scrollIntoView({
+                        behavior: "smooth",
+                      });
+                  }, 205);
+                }}
               >
                 {item.name}
+                {!item.active && " (coming soon)"}
               </Link>
             ))}
           </div>

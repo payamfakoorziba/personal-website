@@ -1,14 +1,7 @@
 import Link from "next/link";
 import { Container } from "./container";
-import { ModeToggle } from "./mode-toggle";
-
-const navItems = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/" },
-  { label: "Blog", href: "/" },
-  { label: "Projects", href: "/" },
-  { label: "Contact", href: "/" },
-];
+import navItems from "@/lib/navigation";
+import { cn } from "@/lib/utils";
 
 const Footer = () => {
   return (
@@ -17,8 +10,16 @@ const Footer = () => {
         <div className="flex flex-col gap-y-4 md:flex-row items-center justify-between">
           <div className="flex items-center gap-x-10 text-foreground">
             {navItems.map((item, index) => (
-              <Link key={index} href={item.href}>
-                {item.label}
+              <Link
+                key={index}
+                href={item.href}
+                className={cn(
+                  !item.active &&
+                    "cursor-default pointer-events-none opacity-80"
+                )}
+              >
+                {item.name}
+                {!item.active && " (coming soon)"}
               </Link>
             ))}
           </div>

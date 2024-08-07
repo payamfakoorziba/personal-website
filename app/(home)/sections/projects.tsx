@@ -5,6 +5,7 @@ import BayviewGlenDental from "@/public/projects/bayview-glen.jpg";
 import Ship4x6 from "@/public/projects/ship4x6.jpg";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const projects = [
   {
@@ -24,6 +25,7 @@ const projects = [
     ],
     image: NavidBestGroup,
     color: "#D9A326",
+    url: "https://navid-best-group.vercel.app/",
   },
   {
     project: "Bayview Glen Dental",
@@ -40,6 +42,7 @@ const projects = [
     ],
     image: BayviewGlenDental,
     color: "#2680D9",
+    url: "https://www.bayviewglendental.com/",
   },
   {
     project: "Ship4x6",
@@ -58,12 +61,13 @@ const projects = [
     ],
     image: Ship4x6,
     color: "#5C8CAB",
+    url: "https://ship4x6.com/",
   },
 ];
 
 const Projects = () => {
   return (
-    <Container className="py-[30px] lg:py-10">
+    <Container className="py-[30px] lg:py-10" id="projects">
       <h3 className="text-xl md:text-2xl lg:text-3xl font-semibold">
         Recent Projects
       </h3>
@@ -94,8 +98,15 @@ const Projects = () => {
               <p className="text-sm md:text-base mt-5 lg:max-w-[60%] leading-relaxed">
                 {experience.description}
               </p>
-              <Button size="sm" variant="secondary" className="mt-5 w-fit">
-                View Project
+              <Button
+                size="sm"
+                variant="secondary"
+                className="mt-5 w-fit"
+                asChild
+              >
+                <Link href={experience.url} target="_blank">
+                  View Project
+                </Link>
               </Button>
             </div>
             <div
