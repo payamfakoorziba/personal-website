@@ -37,7 +37,9 @@ function ProfilePicture() {
             </div>
           </Link>
         </TooltipTrigger>
-        <TooltipContent>Click to view my resume</TooltipContent>
+        <TooltipContent className="select-none">
+          Click to view my resume
+        </TooltipContent>
       </Tooltip>
     </TooltipProvider>
   );

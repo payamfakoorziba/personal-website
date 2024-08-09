@@ -91,12 +91,13 @@ const Hero = () => {
           variants={appearVariants}
           transition={{ delay: 0.6, duration: 0.5 }}
         >
-          <p className="mt-8 max-w-2xl leading-relaxed md:text-xl opacity-85 font-[350]">
+          <p className="mt-8 max-w-2xl leading-relaxed md:text-xl font-[350]">
             I&apos;m a full stack developer from Toronto. I&apos;m passionate
             about building aesthetically pleasing user interfaces. Currently
             building&nbsp;
             <Link
               href="https://aetherwebdesign.com"
+              target="_blank"
               className="px-[4.5px] h-[1.625rem] bg-white/10 rounded-md  inline-flex items-center border dark:border-white/10 text-sm"
             >
               <AetherLogo className="mr-2 inline-flex w-fit h-4" />
