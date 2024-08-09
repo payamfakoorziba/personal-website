@@ -27,6 +27,12 @@ const projects = [
     color: "#D9A326",
     url: "https://navid-best-group.vercel.app/",
     underDevelopment: true,
+    buttons: [
+      {
+        text: "View Project",
+        url: "https://navid-best-group.vercel.app/",
+      },
+    ],
   },
   {
     project: "Bayview Glen Dental",
@@ -44,6 +50,16 @@ const projects = [
     image: BayviewGlenDental,
     color: "#2680D9",
     url: "https://www.bayviewglendental.com/",
+    buttons: [
+      {
+        text: "View Project",
+        url: "https://www.bayviewglendental.com/",
+      },
+      {
+        text: "Read Case Study",
+        url: "https://www.aetherwebdesign.com/case-studies/bayview-glen-dental",
+      },
+    ],
   },
   {
     project: "Ship4x6",
@@ -63,6 +79,12 @@ const projects = [
     image: Ship4x6,
     color: "#5C8CAB",
     url: "https://ship4x6.com/",
+    buttons: [
+      {
+        text: "View Project",
+        url: "https://ship4x6.com/",
+      },
+    ],
   },
 ];
 
@@ -76,7 +98,7 @@ const Projects = () => {
         {projects.map((experience) => (
           <div
             key={experience.project}
-            className="p-6 border rounded-xl relative flex flex-col min-h-[400px]"
+            className="group/card p-6 border rounded-xl relative flex flex-col min-h-[400px]"
           >
             <div className="flex flex-col md:flex-row md:justify-between md:items-start">
               <h4 className="text-lg md:text-xl">{experience.project}</h4>
@@ -106,7 +128,7 @@ const Projects = () => {
                   </div>
                 )}
               </div>
-              <Button
+              {/* <Button
                 size="sm"
                 variant="secondary"
                 className="mt-5 w-fit"
@@ -115,7 +137,21 @@ const Projects = () => {
                 <Link href={experience.url} target="_blank">
                   View Project
                 </Link>
-              </Button>
+              </Button> */}
+              <div className="flex gap-4 mt-5">
+                {experience.buttons.map((button, index) => (
+                  <Button
+                    key={button.text}
+                    size="sm"
+                    variant={index === 0 ? "default" : "secondary"}
+                    className="w-fit"
+                  >
+                    <Link href={button.url} target="_blank">
+                      {button.text}
+                    </Link>
+                  </Button>
+                ))}
+              </div>
             </div>
             <div
               className="px-5 pt-5 relative mt-8 lg:absolute lg:bottom-0 lg:right-6 w-full sm:w-72 rounded-t-xl group overflow-hidden"
@@ -129,7 +165,7 @@ const Projects = () => {
                 src={experience.image}
                 alt={experience.project}
                 quality={100}
-                className="shadow-xl shadow-black translate-y-2 group-hover:translate-y-0 transition-transform duration-300"
+                className="shadow-xl shadow-black translate-y-2 group-hover/card:translate-y-0 transition-transform duration-300"
               />
             </div>
           </div>
