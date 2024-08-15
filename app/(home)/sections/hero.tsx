@@ -83,7 +83,7 @@ const Hero = () => {
           variants={appearVariants}
           transition={{ delay: 0.5, duration: 0.5 }}
         >
-          <h2 className="mt-3 text-foreground dark:bg-gradient-to-r from-white to-[#C6C6C6] bg-clip-text dark:text-transparent w-fit text-lg md:text-xl lg:text-2xl">
+          <h2 className="mt-2 md:mt-3 text-foreground dark:bg-gradient-to-r from-white to-[#C6C6C6] bg-clip-text dark:text-transparent w-fit text-lg md:text-xl lg:text-2xl">
             Web Developer and Designer
           </h2>
         </Appear>
@@ -92,9 +92,8 @@ const Hero = () => {
           transition={{ delay: 0.6, duration: 0.5 }}
         >
           <p className="mt-8 max-w-2xl leading-relaxed md:text-xl font-[350]">
-            I&apos;m a full stack developer from Toronto. I&apos;m passionate
-            about building aesthetically pleasing user interfaces. Currently
-            building&nbsp;
+            I&apos;m a full stack developer. I&apos;m passionate about building
+            aesthetically pleasing user interfaces. Currently building&nbsp;
             <Link
               href="https://aetherwebdesign.com"
               target="_blank"
