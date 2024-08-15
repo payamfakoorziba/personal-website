@@ -5,6 +5,7 @@ import { Layout } from "@/components/layout";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
+import { CSPostHogProvider } from "@/providers/postHog-provider";
 
 export const metadata: Metadata = {
   title: {
@@ -22,17 +23,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={cn(GeistSans.className, "relative")}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Layout>{children}</Layout>
-        </ThemeProvider>
-        <Analytics />
-      </body>
+      <CSPostHogProvider>
+        <body className={cn(GeistSans.className, "relative")}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Layout>{children}</Layout>
+          </ThemeProvider>
+          <Analytics />
+        </body>
+      </CSPostHogProvider>
     </html>
   );
 }
