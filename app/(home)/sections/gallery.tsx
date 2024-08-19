@@ -7,7 +7,6 @@ import Chess from "@/public/gallery/chess.jpg";
 import Gym from "@/public/gallery/gym.jpg";
 import Marco from "@/public/gallery/marco.jpg";
 import Sunset from "@/public/gallery/sunset.jpg";
-import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import ImageHoverCard from "@/components/image-hover-card";
 import Appear from "@/components/appear";
 

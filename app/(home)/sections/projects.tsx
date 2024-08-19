@@ -9,31 +9,31 @@ import Link from "next/link";
 
 const projects = [
   {
-    project: "Navid Best Group",
-    date: "June 2024 - Present",
+    project: "Ship4x6",
+    date: "February 2024 - March 2024",
     description:
-      "Building a modern, aesthetically pleasing website for Navid Best Group, a home remodelling and renovation company.",
+      "Built an e-commerce storefront website with an admin dashboard for Ship4x6, a Canadian shipping label company.",
     technologies: [
       "Figma",
       "React",
       "TypeScript",
       "Next.js",
       "TailwindCSS",
-      "Framer Motion",
-      "Three.js",
-      "Sanity",
+      "Prisma",
+      "PostgreSQL",
+      "Turborepo",
     ],
-    image: NavidBestGroup,
-    color: "#D9A326",
-    url: "https://navid-best-group.vercel.app/",
-    underDevelopment: true,
+    image: Ship4x6,
+    color: "#5C8CAB",
+    url: "https://ship4x6.com/",
     buttons: [
       {
         text: "View Project",
-        url: "https://navid-best-group.vercel.app/",
+        url: "https://ship4x6.com/",
       },
     ],
   },
+
   {
     project: "Bayview Glen Dental",
     date: "April 2024 - May 2024",
@@ -62,27 +62,28 @@ const projects = [
     ],
   },
   {
-    project: "Ship4x6",
-    date: "February 2024 - March 2024",
+    project: "Navid Best Group",
+    date: "June 2024 - Present",
     description:
-      "Built an e-commerce storefront website with an admin dashboard for Ship4x6, a Canadian shipping label company.",
+      "Building a modern, aesthetically pleasing website for Navid Best Group, a home remodelling and renovation company.",
     technologies: [
       "Figma",
       "React",
       "TypeScript",
       "Next.js",
       "TailwindCSS",
-      "Prisma",
-      "PostgreSQL",
-      "Turborepo",
+      "Framer Motion",
+      "Three.js",
+      "Sanity",
     ],
-    image: Ship4x6,
-    color: "#5C8CAB",
-    url: "https://ship4x6.com/",
+    image: NavidBestGroup,
+    color: "#D9A326",
+    url: "https://navid-best-group.vercel.app/",
+    underDevelopment: true,
     buttons: [
       {
         text: "View Project",
-        url: "https://ship4x6.com/",
+        url: "https://navid-best-group.vercel.app/",
       },
     ],
   },
@@ -102,9 +103,9 @@ const Projects = () => {
           >
             <div className="flex flex-col md:flex-row md:justify-between md:items-start">
               <h4 className="text-lg md:text-xl">{experience.project}</h4>
-              <p className="font-light text-stone-600 dark:text-stone-300 text-sm md:text-base">
+              {/* <p className="font-light text-stone-600 dark:text-stone-300 text-sm md:text-base">
                 {experience.date}
-              </p>
+              </p> */}
             </div>
             {/* Badges */}
             <div className="flex flex-wrap gap-2 mt-6 lg:max-w-[50%]">
