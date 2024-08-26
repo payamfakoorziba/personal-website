@@ -12,7 +12,7 @@ const projects = [
     project: "AI Recipe Generator",
     date: "February 2024 - March 2024",
     description:
-      "Built an AI recipe generator app that creates easy-to-follow recipes for your favourite dishes! You can customize the recipes to fit your dietary needs, such as keto, vegan, and gluten-free. I used OpenAI’s new structured outputs feature to generate type-safe recipes.",
+      "Built an AI recipe generator app that creates easy-to-follow recipes for your favourite dishes! You can customize the recipes to fit your dietary needs, such as keto, vegan, and gluten-free.",
     technologies: [
       "React",
       "TypeScript",
