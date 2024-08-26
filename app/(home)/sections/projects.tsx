@@ -9,81 +9,28 @@ import Link from "next/link";
 
 const projects = [
   {
-    project: "Ship4x6",
+    project: "AI Recipe Generator",
     date: "February 2024 - March 2024",
     description:
-      "Built an e-commerce storefront website with an admin dashboard for Ship4x6, a Canadian shipping label company.",
+      "Built an AI recipe generator app that creates easy-to-follow recipes for your favourite dishes! You can customize the recipes to fit your dietary needs, such as keto, vegan, and gluten-free. I used OpenAI’s new structured outputs feature to generate type-safe recipes.",
     technologies: [
-      "Figma",
-      "React",
-      "TypeScript",
-      "Next.js",
-      "TailwindCSS",
-      "Prisma",
-      "PostgreSQL",
-      "Turborepo",
-    ],
-    image: Ship4x6,
-    color: "#5C8CAB",
-    url: "https://ship4x6.com/",
-    buttons: [
-      {
-        text: "View Project",
-        url: "https://ship4x6.com/",
-      },
-    ],
-  },
-
-  {
-    project: "Bayview Glen Dental",
-    date: "April 2024 - May 2024",
-    description:
-      "Designed and developed a brand new website for Bayview Glen Dental Office, a prominent dental facility located in Richmond Hill.",
-    technologies: [
-      "Figma",
       "React",
       "TypeScript",
       "Next.js",
       "TailwindCSS",
       "Framer Motion",
+      "Upstash",
+      "Vercel AI SDK",
+      "Zustand",
     ],
-    image: BayviewGlenDental,
-    color: "#2680D9",
-    url: "https://www.bayviewglendental.com/",
     buttons: [
       {
         text: "View Project",
-        url: "https://www.bayviewglendental.com/",
+        url: "https://recipe-generator-delta.vercel.app/",
       },
       {
-        text: "Read Case Study",
-        url: "https://www.aetherwebdesign.com/case-studies/bayview-glen-dental",
-      },
-    ],
-  },
-  {
-    project: "Navid Best Group",
-    date: "June 2024 - Present",
-    description:
-      "Building a modern, aesthetically pleasing website for Navid Best Group, a home remodelling and renovation company.",
-    technologies: [
-      "Figma",
-      "React",
-      "TypeScript",
-      "Next.js",
-      "TailwindCSS",
-      "Framer Motion",
-      "Three.js",
-      "Sanity",
-    ],
-    image: NavidBestGroup,
-    color: "#D9A326",
-    url: "https://navid-best-group.vercel.app/",
-    underDevelopment: true,
-    buttons: [
-      {
-        text: "View Project",
-        url: "https://navid-best-group.vercel.app/",
+        text: "View Source Code",
+        url: "https://github.com/payamfakoorziba/recipe-generator",
       },
     ],
   },
@@ -93,22 +40,19 @@ const Projects = () => {
   return (
     <Container className="py-[30px] lg:py-10" id="projects">
       <h3 className="text-xl md:text-2xl lg:text-3xl font-semibold">
-        Recent Projects
+        Selected Projects
       </h3>
       <div className="flex flex-col gap-y-8 mt-10">
         {projects.map((experience) => (
           <div
             key={experience.project}
-            className="group/card p-6 border rounded-xl relative flex flex-col min-h-[400px]"
+            className="group/card p-6 border rounded-xl relative flex flex-col"
           >
             <div className="flex flex-col md:flex-row md:justify-between md:items-start">
               <h4 className="text-lg md:text-xl">{experience.project}</h4>
-              {/* <p className="font-light text-stone-600 dark:text-stone-300 text-sm md:text-base">
-                {experience.date}
-              </p> */}
             </div>
             {/* Badges */}
-            <div className="flex flex-wrap gap-2 mt-6 lg:max-w-[50%]">
+            <div className="flex flex-wrap gap-2 mt-6">
               {experience.technologies.map((technology) => (
                 <span
                   key={technology}
@@ -118,56 +62,36 @@ const Projects = () => {
                 </span>
               ))}
             </div>
-            <div className="flex flex-col justify-between flex-1">
-              <div>
-                <p className="text-sm md:text-base mt-5 lg:max-w-[60%] leading-relaxed">
-                  {experience.description}
-                </p>
-                {experience.underDevelopment && (
-                  <div className="text-xs px-2 py-1 rounded-md mt-4 border w-fit select-none">
-                    🚧&nbsp;&nbsp;Under active development
-                  </div>
-                )}
-              </div>
-              {/* <Button
-                size="sm"
-                variant="secondary"
-                className="mt-5 w-fit"
-                asChild
-              >
-                <Link href={experience.url} target="_blank">
-                  View Project
-                </Link>
-              </Button> */}
-              <div className="flex gap-4 mt-5">
-                {experience.buttons.map((button, index) => (
-                  <Button
-                    key={button.text}
-                    size="sm"
-                    variant={index === 0 ? "default" : "secondary"}
-                    className="w-fit"
-                  >
-                    <Link href={button.url} target="_blank">
-                      {button.text}
-                    </Link>
-                  </Button>
-                ))}
-              </div>
+
+            <div>
+              <p className="text-sm md:text-base mt-5 leading-relaxed">
+                {experience.description}
+              </p>
             </div>
-            <div
-              className="px-5 pt-5 relative mt-8 lg:absolute lg:bottom-0 lg:right-6 w-full sm:w-72 rounded-t-xl group overflow-hidden"
-              style={{
-                backgroundImage: `linear-gradient(
-                ${Color(experience.color).hex()},
-                ${Color(experience.color).darken(0.5).hex()})`,
-              }}
-            >
-              <Image
-                src={experience.image}
-                alt={experience.project}
-                quality={100}
-                className="shadow-xl shadow-black translate-y-2 group-hover/card:translate-y-0 transition-transform duration-300"
-              />
+            <div className="flex gap-4 mt-10">
+              {experience.buttons.map((button, index) => (
+                <Button
+                  key={button.text}
+                  size="sm"
+                  variant={index === 0 ? "default" : "secondary"}
+                  className="w-fit"
+                >
+                  <Link href={button.url} target="_blank">
+                    {button.text}
+                  </Link>
+                </Button>
+              ))}
+            </div>
+            <div className="w-full aspect-video mt-10 rounded-xl">
+              <video
+                className="w-full h-full object-cover rounded-xl"
+                autoPlay
+                loop
+                muted
+              >
+                <source src="/projects/recipe-generator.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             </div>
           </div>
         ))}
