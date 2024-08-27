@@ -38,7 +38,10 @@ const Header = () => {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={cn("text-sm", !item.active && "cursor-default")}
+                  className={cn(
+                    "text-sm",
+                    !item.active && "cursor-default opacity-70"
+                  )}
                 >
                   {item.name}
                 </Link>
