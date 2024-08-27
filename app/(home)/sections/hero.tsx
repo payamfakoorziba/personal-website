@@ -12,7 +12,7 @@ import BlurAppear from "@/components/blur-text-appear";
 import Appear from "@/components/appear";
 import ProfilePicture from "../components/profile-picture";
 
-function AetherLogo(props: React.ComponentPropsWithoutRef<"svg">) {
+export function AetherLogo(props: React.ComponentPropsWithoutRef<"svg">) {
   return (
     <svg
       width="26"

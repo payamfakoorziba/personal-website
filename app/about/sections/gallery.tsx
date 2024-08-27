@@ -22,11 +22,11 @@ const Gallery = () => {
           "*:overflow-hidden *:rounded-xl"
         )}
         variants={{
-          hidden: { y: 20, opacity: 0, filter: "blur(4px)" },
+          hidden: { y: 20, opacity: 0, filter: "blur(10px)" },
           visible: { y: 0, opacity: 1, filter: "blur(0px)" },
         }}
         transition={{
-          delay: 1,
+          delay: 0.6,
           duration: 0.75,
         }}
       >

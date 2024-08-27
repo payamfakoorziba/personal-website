@@ -1,5 +1,6 @@
 import Header from "@/components/header";
 import Footer from "./footer";
+import GetInTouch from "@/app/(home)/sections/get-in-touch";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -11,9 +12,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </div>
-      <div className="relative flex w-full flex-col">
+      <div className="relative flex w-full flex-col min-h-screen">
         <Header />
         <main className="flex-auto">{children}</main>
+        <GetInTouch />
         <Footer />
       </div>
     </>
