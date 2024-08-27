@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Container } from "./container";
 import { ModeToggle } from "./mode-toggle";
@@ -42,6 +44,16 @@ const Header = () => {
                     "text-sm",
                     !item.active && "cursor-default opacity-70"
                   )}
+                  onClick={(e) => {
+                    if (item.href.includes("#")) {
+                      e.preventDefault();
+                      document
+                        .getElementById(item.href.slice(2))
+                        ?.scrollIntoView({
+                          behavior: "smooth",
+                        });
+                    }
+                  }}
                 >
                   {item.name}
                 </Link>
