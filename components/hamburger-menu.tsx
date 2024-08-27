@@ -51,15 +51,17 @@ const HamburgerMenu = () => {
                     "cursor-default pointer-events-none opacity-80"
                 )}
                 onClick={(e) => {
-                  e.preventDefault();
                   setOpen(false);
-                  setTimeout(() => {
-                    document
-                      .getElementById(item.href.slice(2))
-                      ?.scrollIntoView({
-                        behavior: "smooth",
-                      });
-                  }, 205);
+                  if (item.href.includes("#")) {
+                    e.preventDefault();
+                    setTimeout(() => {
+                      document
+                        .getElementById(item.href.slice(2))
+                        ?.scrollIntoView({
+                          behavior: "smooth",
+                        });
+                    }, 205);
+                  }
                 }}
               >
                 {item.name}
