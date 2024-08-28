@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
 import { CSPostHogProvider } from "@/providers/postHog-provider";
-import PostHogPageView from "@/lib/postHog-page-view";
 
 export const metadata: Metadata = {
   title: {
@@ -35,7 +34,6 @@ export default function RootLayout({
             <Layout>{children}</Layout>
           </ThemeProvider>
           <Analytics />
-          <PostHogPageView />
         </body>
       </CSPostHogProvider>
     </html>
