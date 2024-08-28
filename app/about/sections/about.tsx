@@ -1,6 +1,5 @@
 import { AetherLogo } from "@/app/(home)/sections/hero";
 import Appear from "@/components/appear";
-import BlurAppear from "@/components/blur-text-appear";
 import { Container } from "@/components/container";
 import Link from "next/link";
 
@@ -62,7 +61,7 @@ const AboutMe = () => {
             <Link className="underline" href={fideProfileLink} target="_blank">
               playing chess
             </Link>
-            &nbsp;professionally, and training jujitsu and boxing, which keep me
+            &nbsp;professionally and training jujitsu and boxing, which keep me
             inspired and creative. Below, you&apos;ll find a glimpse into my
             life beyond the keyboard.
           </p>

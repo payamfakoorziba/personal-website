@@ -12,12 +12,15 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 
 function Logo() {
   return <div className="text-2xl font-medium select-none">Payam.</div>;
 }
 
 const Header = () => {
+  const pathname = usePathname();
+  console.log(pathname);
   return (
     <header className="relative border-b-[0.5px] border-black/15 dark:border-white/15  top-0 z-10">
       <Container className="h-full relative">
@@ -36,13 +39,15 @@ const Header = () => {
         {navItems.map((item) => (
           <TooltipProvider key={item.name}>
             <Tooltip delayDuration={100}>
-              <TooltipTrigger>
+              <TooltipTrigger asChild>
                 <Link
                   key={item.name}
                   href={item.href}
                   className={cn(
                     "text-sm",
-                    !item.active && "cursor-default opacity-70"
+                    "opacity-75 hover:opacity-100 transition-opacity h-full flex items-center relative",
+                    pathname === item.href && "opacity-100",
+                    !item.active && "cursor-default hover:opacity-75 opacity-70"
                   )}
                   onClick={(e) => {
                     if (item.href.includes("#")) {
@@ -56,6 +61,9 @@ const Header = () => {
                   }}
                 >
                   {item.name}
+                  {pathname === item.href && item.active && (
+                    <div className="absolute h-px bottom-0 inset-x-0 bg-gradient-to-r from-transparent via-background/60 invert to-transparent" />
+                  )}
                 </Link>
               </TooltipTrigger>
               {!item.active && <TooltipContent>Coming soon!</TooltipContent>}
