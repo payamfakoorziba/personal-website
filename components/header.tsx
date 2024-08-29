@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
 
 function Logo() {
   return <div className="text-2xl font-medium select-none">Payam.</div>;
@@ -50,6 +51,10 @@ const Header = () => {
                     !item.active && "cursor-default hover:opacity-75 opacity-70"
                   )}
                   onClick={(e) => {
+                    if (!item.active) {
+                      e.preventDefault();
+                      return;
+                    }
                     if (item.href.includes("#")) {
                       e.preventDefault();
                       document
@@ -62,7 +67,10 @@ const Header = () => {
                 >
                   {item.name}
                   {pathname === item.href && item.active && (
-                    <div className="absolute h-px bottom-0 inset-x-0 bg-gradient-to-r from-transparent via-background/60 invert to-transparent" />
+                    <motion.div
+                      className="absolute h-px bottom-0 inset-x-0 bg-gradient-to-r from-transparent via-background/60 invert to-transparent"
+                      layoutId="underline"
+                    />
                   )}
                 </Link>
               </TooltipTrigger>

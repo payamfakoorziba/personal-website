@@ -3,6 +3,7 @@ import Color from "color";
 import NavidBestGroup from "@/public/projects/navid-best-group.jpg";
 import BayviewGlenDental from "@/public/projects/bayview-glen.jpg";
 import Ship4x6 from "@/public/projects/ship4x6.jpg";
+import Doer from "@/public/projects/doer.jpg";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -58,6 +59,28 @@ const projects = [
       {
         text: "Read Case Study",
         url: "https://www.aetherwebdesign.com/case-studies/bayview-glen-dental",
+      },
+    ],
+  },
+  {
+    project: "Doer",
+    date: "February 2024 - March 2024",
+    description:
+      "Designed and developed a landing page for Doer, a real-time home service delivery app, featuring an AI chatbot for submitting tickets.",
+    technologies: [
+      "Figma",
+      "React",
+      "TypeScript",
+      "Next.js",
+      "TailwindCSS",
+      "OpenAI",
+    ],
+    image: Doer,
+    color: "#03D9D6",
+    buttons: [
+      {
+        text: "View Project",
+        url: "https://www.doerteam.ca/",
       },
     ],
   },
