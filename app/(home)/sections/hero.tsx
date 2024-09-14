@@ -11,6 +11,8 @@ import {
 import BlurAppear from "@/components/blur-text-appear";
 import Appear from "@/components/appear";
 import ProfilePicture from "../components/profile-picture";
+import StoryLogo from "@/public/story-logo.png";
+import Image from "next/image";
 
 export function AetherLogo(props: React.ComponentPropsWithoutRef<"svg">) {
   return (
@@ -91,9 +93,23 @@ const Hero = () => {
           variants={appearVariants}
           transition={{ delay: 0.6, duration: 0.5 }}
         >
-          <p className="mt-8 max-w-2xl leading-relaxed md:text-xl font-[350]">
+          <p className="mt-8 max-w-3xl leading-relaxed md:text-xl/relaxed font-[350]">
             I&apos;m a full stack developer. I&apos;m passionate about building
-            aesthetically pleasing user interfaces. Currently building&nbsp;
+            aesthetically pleasing user interfaces. Currently a frontend
+            developer at&nbsp;
+            <Link
+              href="https://story.com"
+              target="_blank"
+              className="px-[4.5px] h-[1.625rem] bg-white/10 rounded-md  inline-flex items-center border dark:border-white/10 text-sm"
+            >
+              <Image
+                className="mr-2 inline-flex w-fit h-4"
+                src={StoryLogo}
+                alt="Story Logo"
+              />
+              Story.com
+            </Link>
+            . I also run a small web design and development agency called &nbsp;
             <Link
               href="https://aetherwebdesign.com"
               target="_blank"
