@@ -94,9 +94,8 @@ const Hero = () => {
           transition={{ delay: 0.6, duration: 0.5 }}
         >
           <p className="mt-8 max-w-3xl leading-relaxed md:text-xl/relaxed font-[350]">
-            I&apos;m a full stack developer. I&apos;m passionate about building
-            aesthetically pleasing user interfaces. Currently a frontend
-            developer at&nbsp;
+            I&apos;m passionate about building aesthetically pleasing user
+            interfaces. Currently a frontend developer at&nbsp;
             <Link
               href="https://story.com"
               target="_blank"
