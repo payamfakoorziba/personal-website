@@ -80,7 +80,7 @@ const projects = [
     buttons: [
       {
         text: "View Project",
-        url: "https://www.doerteam.ca/",
+        url: "https://doer-iota.vercel.app/",
       },
     ],
   },
