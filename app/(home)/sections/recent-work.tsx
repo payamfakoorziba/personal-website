@@ -26,11 +26,11 @@ const projects = [
     ],
     image: Ship4x6,
     color: "#5C8CAB",
-    url: "https://ship4x6.com/",
+    url: "https://ship4x6-com-storefront.vercel.app/",
     buttons: [
       {
         text: "View Project",
-        url: "https://ship4x6.com/",
+        url: "https://ship4x6-com-storefront.vercel.app/",
       },
     ],
   },
