@@ -10,10 +10,10 @@ import { CSPostHogProvider } from "@/providers/postHog-provider";
 export const metadata: Metadata = {
   title: {
     template: "%s - Payam Fakoorziba",
-    default: "Payam Fakoorziba - Web designer, developer, and entrepreneur",
+    default: "Payam Fakoorziba - Web designer and developer",
   },
   description:
-    "I’m Payam, a web designer, developer and entrepreneur based in Toronto, Canada. I’m the co-founder and lead web developer of Aether, where we build high-performance websites and web applications.",
+    "I’m Payam, a web designer and developer based in Toronto, Canada.",
 };
 
 export default function RootLayout({

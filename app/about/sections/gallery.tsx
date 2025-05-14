@@ -68,7 +68,7 @@ const Gallery = () => {
           image={Jujitsu}
           alt="Jujitsu"
           className="order-3 md:order-none"
-          description="My first jujitsu competition. Excited to compete again!"
+          description="My most recent jujitsu competition. Already training for the next one!"
         />
       </Appear>
     </Container>

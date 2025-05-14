@@ -95,7 +95,8 @@ const Hero = () => {
         >
           <p className="mt-8 max-w-3xl leading-relaxed md:text-xl/relaxed font-[350]">
             I&apos;m passionate about building aesthetically pleasing user
-            interfaces. Currently a frontend developer at&nbsp;
+            interfaces. Currently a lead frontend developer and designer
+            at&nbsp;
             <Link
               href="https://story.com"
               target="_blank"
@@ -108,7 +109,8 @@ const Hero = () => {
               />
               Story.com
             </Link>
-            . I also run a small web design and development agency called &nbsp;
+            . Before joining Story, I ran a small web design and development
+            agency called&nbsp;
             <Link
               href="https://aetherwebdesign.com"
               target="_blank"

@@ -24,7 +24,8 @@ const Footer = () => {
             ))}
           </div>
           <p className="text-xs text-black/60 dark:text-white/60">
-            ©2024 Payam Technologies Inc. All rights reserved.
+            ©{new Date().getFullYear()} Payam Technologies Inc. All rights
+            reserved.
           </p>
         </div>
       </Container>

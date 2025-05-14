@@ -2,10 +2,19 @@ import { Container } from "@/components/container";
 
 const experiences = [
   {
-    company: "Aether Industries Inc.",
+    company: "Story.com",
+    position: "Lead Frontend Developer and Designer",
+    startDate: "September 2024",
+    endDate: "Present",
+    description:
+      "Lead the development of Story's web application, a platform for creating and sharing stories with AI-powered tools.",
+  },
+
+  {
+    company: "Aether Web Design",
     position: "Co-Founder and Lead Developer",
     startDate: "April 2024",
-    endDate: "Present",
+    endDate: "August 2024",
     description:
       "Co-founded Aether Web Design, a web design and development agency in Toronto specializing in high-performance, trust-building, and conversion-optimized websites.",
   },

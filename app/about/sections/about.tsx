@@ -1,7 +1,9 @@
 import { AetherLogo } from "@/app/(home)/sections/hero";
 import Appear from "@/components/appear";
 import { Container } from "@/components/container";
+import Image from "next/image";
 import Link from "next/link";
+import StoryLogo from "@/public/story-logo.png";
 
 const appearVariants = {
   hidden: { y: 10, opacity: 0, filter: "blur(4px)" },
@@ -44,7 +46,24 @@ const AboutMe = () => {
         >
           <p className="mt-8 max-w-3xl leading-relaxed md:text-lg font-[350]">
             I&apos;m a full stack developer with a passion for building
-            aesthetically pleasing user interfaces. I run &nbsp;
+            aesthetically pleasing user interfaces. I&apos;m currently a lead
+            frontend developer and designer at&nbsp;
+            <Link
+              href="https://story.com"
+              target="_blank"
+              className="px-[4.5px] h-[1.625rem] bg-white/10 rounded-md  inline-flex items-center border dark:border-white/10 text-sm"
+            >
+              <Image
+                className="mr-2 inline-flex w-fit h-4"
+                src={StoryLogo}
+                alt="Story Logo"
+              />
+              Story.com
+            </Link>
+            .
+            <br />
+            <br />
+            Before joining Story, I ran&nbsp;
             <Link
               href="https://aetherwebdesign.com"
               target="_blank"
