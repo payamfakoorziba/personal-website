@@ -7,7 +7,7 @@ const experiences = [
     startDate: "September 2024",
     endDate: "Present",
     description:
-      "Lead the development of Story's web application, a platform for creating and sharing stories with AI-powered tools.",
+      "Lead the development of Story.com, an AI storytelling platform that allows users to create AI movies and stories.",
   },
 
   {
