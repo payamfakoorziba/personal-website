@@ -11,7 +11,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <div className="fixed inset-0 flex justify-center sm:px-85">
         <div className="flex w-full max-w-7xl lg:px-8 overflow-hidden">
           <div className="relative w-full border-[0.5px] border-black/15 dark:border-white/15">
-            <div
+            {/* <div
               // initial={{
               //   y: 0,
               //   opacity: 0,
@@ -27,7 +27,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               //   repeatDelay: 5,
               // }}
               className="hidden lg:block absolute right-0 top-10 w-[0.5px] h-80 bg-gradient-to-b from-transparent via-background to-transparent invert translate-x-[0.5px]"
-            />
+            /> */}
           </div>
         </div>
       </div>

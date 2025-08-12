@@ -16,7 +16,7 @@ const projects = [
       "TailwindCSS",
       "Framer Motion",
       "Upstash",
-      "Vercel AI SDK",
+      "AI SDK",
       "Zustand",
     ],
     buttons: [
