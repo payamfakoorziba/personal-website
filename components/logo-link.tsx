@@ -27,7 +27,7 @@ export function LogoLink({
         <Link
           href={href}
           target="_blank"
-          className="px-[4.5px] h-[1.625rem] bg-white/10 rounded-md  inline-flex items-center border dark:border-white/10 text-sm"
+          className="px-[4.5px] h-6.5 bg-white/10 rounded-md  inline-flex items-center border dark:border-white/10 text-sm"
         >
           <Image className="mr-2 inline-flex w-fit h-4" src={logo} alt={alt} />
           {children}
@@ -44,10 +44,11 @@ export function LogoLink({
               priority
               placeholder="blur"
             />
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-black/50 transition-all duration-100 flex items-center justify-center backdrop-blur-sm gap-1">
-              {/* <span className="text-white text-sm font-medium"> */}
-              Visit Website
-              <ArrowUpRight className="w-4 h-4" />
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-foreground/50 transition-all duration-200 flex items-center justify-center backdrop-blur-xs gap-1">
+              <div className="flex items-center gap-1 bg-accent px-2 py-1 rounded-md text-sm font-medium">
+                Visit Website
+                <ArrowUpRight className="w-4 h-4" />
+              </div>
               {/* </span> */}
             </div>
           </Link>

@@ -41,7 +41,7 @@ const ImageHoverCard = ({
         initial={{ y: "100%", opacity: 0 }}
         animate={{ y: isHovered ? 0 : "100%", opacity: isHovered ? 1 : 0 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="absolute w-full bottom-0 px-3 py-2 text-[10px] sm:text-xs/normal bg-background/80 backdrop-blur-sm"
+        className="absolute w-full bottom-0 px-3 py-2 text-[10px] sm:text-xs/normal bg-background/80 backdrop-blur-xs"
       >
         <p>{description}</p>
       </motion.div>

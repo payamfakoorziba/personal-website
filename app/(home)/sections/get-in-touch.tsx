@@ -10,7 +10,7 @@ const GetInTouch = () => {
   const [isCopied, setIsCopied] = useState(false);
   return (
     <div className="relative" id="get-in-touch">
-      <div className="absolute inset-0 dark:bg-gradient-to-t from-[#303036] -z-10" />
+      <div className="absolute inset-0 dark:bg-linear-to-t from-neutral-800 -z-10" />
       <Container className="py-10">
         <div>
           <h3 className="text-xl md:text-2xl font-semibold">

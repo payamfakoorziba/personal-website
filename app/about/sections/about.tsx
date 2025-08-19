@@ -39,17 +39,6 @@ const AboutMe = () => {
               duration: 0.5,
             }}
           >
-            <h2 className="mt-3 md:mt-4 text-foreground w-fit text-lg md:text-xl lg:text-2xl">
-              Thanks for stopping by!
-            </h2>
-          </Appear>
-          <Appear
-            variants={appearVariants}
-            transition={{
-              delay: 0.4,
-              duration: 0.5,
-            }}
-          >
             <section className="mt-8 max-w-3xl leading-relaxed md:text-lg font-[350]">
               I&apos;m a full stack developer with a passion for building
               aesthetically pleasing user interfaces. In my latest role, I was a
