@@ -1,6 +1,5 @@
 import { Container } from "@/components/container";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import Jujitsu from "@/public/gallery/jujitsu.jpg";
 import Boys from "@/public/gallery/boys.jpg";
 import Chess from "@/public/gallery/chess.jpg";

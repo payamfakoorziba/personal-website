@@ -42,14 +42,14 @@ const Hero = () => {
     <TooltipProvider>
       <Container>
         <section className="py-10">
-          <Spotlight className="-top-80 -left-80 -z-10" fill="white" />
+          {/* <Spotlight className="-top-80 -left-80 -z-10" fill="white" /> */}
           <ProfilePicture />
           <h1 className="mt-6 font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
-            <BlurAppear>Hi, I&apos;m Payam 👋🏻</BlurAppear>
+            <BlurAppear staggerDelay={0.05}>Hi, I&apos;m Payam 👋🏻</BlurAppear>
           </h1>
           <Appear
             variants={appearVariants}
-            transition={{ delay: 0.5, duration: 0.5 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
           >
             <h2 className="mt-2 md:mt-3 text-foreground dark:bg-gradient-to-r from-white to-[#C6C6C6] bg-clip-text dark:text-transparent w-fit text-lg md:text-xl lg:text-2xl">
               Web Developer and Designer
@@ -57,7 +57,7 @@ const Hero = () => {
           </Appear>
           <Appear
             variants={appearVariants}
-            transition={{ delay: 0.6, duration: 0.5 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
           >
             <ul className="mt-8 leading-relaxed md:text-xl/relaxed font-[350] space-y-1 list-disc list-inside">
               <span className="font-medium">TL;DR</span>
@@ -100,7 +100,7 @@ const Hero = () => {
           </Appear>
           <Appear
             variants={appearVariants}
-            transition={{ delay: 0.8, duration: 0.5 }}
+            transition={{ delay: 0.6, duration: 0.5 }}
             className="mt-6 flex gap-6"
           >
             <SocialLink

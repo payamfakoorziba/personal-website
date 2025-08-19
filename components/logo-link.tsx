@@ -6,6 +6,7 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
+import { ArrowUpRight } from "lucide-react";
 
 export function LogoLink({
   href,
@@ -40,12 +41,14 @@ export function LogoLink({
               alt={alt}
               fill
               className="object-cover"
-              quality={100}
+              priority
+              placeholder="blur"
             />
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-black/50 transition-all duration-100 flex items-center justify-center backdrop-blur-sm">
-              <span className="text-white text-sm font-medium">
-                Visit Website
-              </span>
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-black/50 transition-all duration-100 flex items-center justify-center backdrop-blur-sm gap-1">
+              {/* <span className="text-white text-sm font-medium"> */}
+              Visit Website
+              <ArrowUpRight className="w-4 h-4" />
+              {/* </span> */}
             </div>
           </Link>
         </TooltipContent>
