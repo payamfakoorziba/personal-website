@@ -51,7 +51,7 @@ const Hero = () => {
             variants={appearVariants}
             transition={{ delay: 0.3, duration: 0.5 }}
           >
-            <h2 className="mt-2 md:mt-3 text-foreground dark:bg-gradient-to-r from-white to-[#C6C6C6] bg-clip-text dark:text-transparent w-fit text-lg md:text-xl lg:text-2xl">
+            <h2 className="mt-2 md:mt-3 text-foreground dark:bg-linear-to-r from-white to-[#C6C6C6] bg-clip-text dark:text-transparent w-fit text-lg md:text-xl lg:text-2xl">
               Web Developer and Designer
             </h2>
           </Appear>

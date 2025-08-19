@@ -23,10 +23,10 @@ const HamburgerMenu = () => {
         </Button>
       </Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-zinc-950/70 backdrop-blur-sm data-[state=open]:animate-fade-in data-[state=closed]:animate-fade-out" />
+        <Dialog.Overlay className="fixed inset-0 bg-zinc-950/70 backdrop-blur-xs data-[state=open]:animate-fade-in data-[state=closed]:animate-fade-out" />
         <Dialog.Content
           className={cn(
-            "fixed top-[80px] inset-x-2 px-4 py-2 bg-background shadow-xl rounded-lg z-20 focus:ring-0 focus:outline-none",
+            "fixed top-[80px] inset-x-2 px-4 py-2 bg-background shadow-xl rounded-lg z-20 focus:ring-0 focus:outline-hidden",
             // animations
             "data-[state=open]:animate-in data-[state=open]:fade-in data-[state=open]:slide-in-from-top-[80px] data-[state=open]:duration-300",
             "data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=closed]:duration-200"

@@ -9,8 +9,6 @@ import Sunset from "@/public/gallery/sunset.jpg";
 import ImageHoverCard from "@/components/image-hover-card";
 import Appear from "@/components/appear";
 
-export { Jujitsu, Boys, Chess, Gym, Marco, Sunset };
-
 const Gallery = () => {
   return (
     <Container className="py-10 lg:py-14">
@@ -25,21 +23,21 @@ const Gallery = () => {
           visible: { y: 0, opacity: 1, filter: "blur(0px)" },
         }}
         transition={{
-          delay: 0.6,
+          delay: 0.4,
           duration: 0.75,
         }}
       >
         <div className="absolute -inset-4 sm:-inset-8 bg-grid-small-black/15 dark:bg-grid-small-white/15 -z-20">
-          <div className="absolute inset-x-0 top-0 h-[10%] bg-gradient-to-b from-background" />
-          <div className="absolute inset-x-0 bottom-0 h-[10%] bg-gradient-to-t from-background" />
-          <div className="absolute inset-y-0 left-0 w-[10%] bg-gradient-to-r from-background" />
-          <div className="absolute inset-y-0 right-0 w-[10%] bg-gradient-to-l from-background" />
+          <div className="absolute inset-x-0 top-0 h-[10%] bg-linear-to-b from-background" />
+          <div className="absolute inset-x-0 bottom-0 h-[10%] bg-linear-to-t from-background" />
+          <div className="absolute inset-y-0 left-0 w-[10%] bg-linear-to-r from-background" />
+          <div className="absolute inset-y-0 right-0 w-[10%] bg-linear-to-l from-background" />
         </div>
         <ImageHoverCard
           image={Chess}
           alt="Chess"
           description="Final round of the Reading Week Open Chess Tournament 2023."
-          className="row-span-2 aspect-[7/10]"
+          className="row-span-2 aspect-7/10"
         />
         <ImageHoverCard
           image={Marco}
@@ -54,19 +52,19 @@ const Gallery = () => {
         <ImageHoverCard
           image={Gym}
           alt="Gym"
-          className="row-span-2 order-2 md:order-none"
+          className="row-span-2 order-2 md:order-0"
           description="Post workout mirror pic at Goldring Centre."
         />
         <ImageHoverCard
           image={Sunset}
           alt="Sunset"
-          className="row-span-1 md:row-span-2 order-1 md:order-none"
+          className="row-span-1 md:row-span-2 order-1 md:order-0"
           description="My workspace at my old apartment near the university."
         />
         <ImageHoverCard
           image={Jujitsu}
           alt="Jujitsu"
-          className="order-3 md:order-none"
+          className="order-3 md:order-0"
           description="My most recent jujitsu competition. Already training for the next one!"
         />
       </Appear>

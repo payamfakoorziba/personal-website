@@ -33,7 +33,7 @@ const Header = () => {
             <HamburgerMenu />
             <ModeToggle />
           </div>
-          {/* <div className="absolute bottom-0 right-0 w-40 sm:w-60 md:w-80 h-[0.5px] bg-gradient-to-r from-transparent via-background to-transparent invert translate-y-[0.5px]" /> */}
+          {/* <div className="absolute bottom-0 right-0 w-40 sm:w-60 md:w-80 h-[0.5px] bg-linear-to-r from-transparent via-background to-transparent invert translate-y-[0.5px]" /> */}
         </div>
       </Container>
       <nav className="hidden md:flex items-center h-10 px-6 rounded-full gap-x-10 absolute top-6 left-1/2 -translate-x-1/2 bg-white dark:bg-zinc-800 shadow-md z-20">
@@ -68,7 +68,7 @@ const Header = () => {
                   {item.name}
                   {pathname === item.href && item.active && (
                     <motion.div
-                      className="absolute h-px bottom-0 inset-x-0 bg-gradient-to-r from-transparent via-background/60 invert to-transparent"
+                      className="absolute h-[0.5px] bottom-0 inset-x-0 bg-linear-to-r from-transparent via-background/60 invert to-transparent"
                       layoutId="underline"
                     />
                   )}
