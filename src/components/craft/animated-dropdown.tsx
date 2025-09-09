@@ -62,8 +62,7 @@ const AnimatedDropdown = <T extends string>({
               }}
               transition={{
                 ...defaultTransition,
-                // duration: open ? defaultTransition.duration : 0,
-                duration: defaultTransition.duration,
+                duration: open ? defaultTransition.duration : 0,
               }}
               className={cn(
                 "absolute inset-0 rounded-xl bg-lime-400",

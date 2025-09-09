@@ -61,11 +61,11 @@ const PromptInput = ({
       <button>
         <span
           className={cn(
-            "absolute inset-y-2 right-2 bg-neutral-300 rounded-full flex items-center justify-center aspect-square group transition",
+            "absolute inset-y-2 right-2 bg-neutral-300 rounded-full flex items-center justify-center aspect-square transition",
             !value ? "bg-neutral-500" : "bg-primary"
           )}
         >
-          <ArrowRight className="text-white size-4 md:size-5 group-hover:translate-x-0.5 transition" />
+          <ArrowRight className="text-white size-4 md:size-5" />
         </span>
       </button>
     </div>
