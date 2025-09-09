@@ -57,7 +57,7 @@ export default function ConnectSection() {
         </span>
       </p>
 
-      <div className="mt-8 flex gap-4">
+      <div className="mt-8 flex flex-wrap gap-4">
         {[
           {
             label: "Instagram",
