@@ -1,0 +1,603 @@
+import SimpleEntrance from "./components/simple-entrance";
+import SimpleExit from "./components/simple-exit";
+import SimpleStagger from "./components/simple-stagger";
+import SimpleExpandable from "./components/simple-expandable";
+import SimpleUseMeasureDemo from "./components/simple-use-measure-demo";
+import HeightAutoAnimation from "./components/height-auto-animation";
+import SimpleCarousel from "./components/simple-carousel";
+import SimpleSwitch from "./components/simple-switch";
+import AnimatedNavigation from "./components/animated-navigation";
+
+# 5 essential Motion patterns you should know
+
+Animations are a core element of what makes a UI **_feel_** good. They help users understand where something came from and what just changed. Creating good animations is [hard](https://emilkowal.ski/ui/great-animations) as there are many aspects to consider. Fortunately, tools like Motion (prev. Framer Motion) have made it easier to implement beautiful animations declaratively, which is why it’s one of the top choices for animation libraries for React developers. Here I’ll go over 5 Motion patterns that I’ve used extensively when building these animations.
+
+First, let’s quickly go through the fundamentals by creating simple entrance animations with Motion. Most of your work with Motion is done through the `<motion />` component.
+
+```tsx
+import { motion } from "motion/react";
+```
+
+Now you can turn any HTML element into a Motion element by prepending a `motion.` to the HTML tag.
+
+```tsx
+// A simple div
+<div>
+  Hi
+</div>
+
+// A ✨motion✨ div
+<motion.div>
+  Hi
+</motion.div>
+```
+
+A motion element is exactly the same as its static HTML element, except it has a few animation props like `initial` and `animate`. You can use the `initial` prop to define the initial state of the div when it gets mounted , and the `animate` prop to define the end state of the animation. Here’s a simple fade-in and scale animation:
+
+<SimpleEntrance />
+
+```tsx
+<motion.div
+  initial={{ opacity: 0, scale: 0 }}
+  animate={{ opacity: 1, scale: 1 }}
+/>
+```
+
+## 1. Exit animations
+
+To animate an element as it is exiting the DOM, you can use the `exit` prop. The most important thing to remember with exit animations is that you have to wrap the exiting element with `<AnimatePresence />` . Let’s add an exit animation to the ball, which gets triggered on click.
+
+<Callout>
+💡 Make sure the conditional statement is **_inside_** of `AnimatePresence`. So this doesn’t work:
+
+```tsx
+{isVisible && (
+  <AnimatePresence>
+    <motion.div
+      ...
+    />
+  </AnimatePresence>
+)}
+```
+
+</Callout>
+
+When you wrap an element with `AnimatePresence` , Motion will be able to detect exactly when the element is removed from the React tree, and will then animate it based on the styles defined in the `exit` prop.
+
+In addition to using conditional rendering with logical AND (`&&`), Motion provides another powerful way to handle entrance and exit animations: using the `key` prop.
+
+Changing the `key` prop tells React that it's dealing with a different component entirely, even if it _looks_ the same, which allows Motion to detect the old element exiting the DOM and the new one entering.
+
+<SimpleExit />
+
+```tsx
+const [currentBall, setCurrentBall] = useState("lime");
+
+const handleToggleBall = () => {
+  setCurrentBall((currentBall) => (currentBall === "lime" ? "teal" : "lime"));
+};
+
+return (
+  <AnimatePresence mode="wait">
+    <motion.div
+      key={currentBall} //Don't forget the key prop!
+      initial={{ opacity: 0, y: 100 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 100 }}
+      className={`${currentBall === "lime" ? "bg-lime-500" : "bg-teal-500"}`}
+      onClick={handleToggleBall}
+    />
+  </AnimatePresence>
+);
+```
+
+Notice the `mode="wait"` on the AnimatePresence. The default value of `mode` is `sync` which animates the elements in and out as soon as they’re added/removed. Here we’re using `wait` which first animates the existing element out, and only then animates the new element in. You can read more about the `mode` prop [here](https://motion.dev/docs/react-animate-presence#mode).
+
+## 2. Staggered animations
+
+Sometimes we want to animate a list of elements one after the other, also known as a “staggered animation”. An imperative way of implementing this is to simply add a delay to each element, often a function of the index of the item.
+
+We can achieve this by using the `transition` prop. We can pass an object to `transition` that tells Motion the **_type_** of animation we want with things like `duration`, `delay` and `ease` . Here’s a staggered balls animation:
+
+Here's an example of staggered animations using the `transition` prop with Motion:
+
+<SimpleStagger />
+
+```tsx
+<div className="flex gap-4">
+  {[0, 1, 2, 3, 4].map((index) => (
+    <motion.div
+      key={index}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{
+        duration: 0.3,
+        delay: 0.1 * index, // Each ball is delayed by 0.1s * index
+      }}
+    />
+  ))}
+</div>
+```
+
+The key part is the `delay: 0.1 * index` in the transition prop, which creates that nice sequential animation effect as each ball appears slightly after the previous one.
+
+A more declarative way of doing staggered animations is using variants. Variants are a nicer way of defining the animation states using a key - value pair. Let’s recreate our entrance animation from earlier using variants:
+
+<SimpleEntrance />
+
+```tsx
+const variants = {
+  hidden: { opacity: 0, scale: 0 },
+  visible: { opacity: 1, scale: 1 },
+}
+
+...
+
+<motion.div
+  variants={variants}
+  initial="hidden"
+  animate="visible"
+/>
+
+```
+
+Here we defined our different animation states in a `variants` object, which we then passed to the motion component via the `variants` prop. This allows us to now use keys instead of objects for our `initial` and `animate` props.
+
+Going back to our staggered animation, here’s how we’d implement it via `variants`:
+
+<SimpleStagger />
+
+```tsx
+const containerVariants = {
+  visible: {
+    transition: {
+      staggerChildren: 0.1, // This creates the stagger effect
+    },
+  },
+};
+
+const ballVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0 },
+};
+
+return (
+  // The parent container controls the staggering
+  <motion.div
+    className="flex gap-4"
+    variants={containerVariants}
+    initial="hidden"
+    animate="visible"
+  >
+    {[0, 1, 2, 3, 4].map((index) => (
+      <motion.div
+        key={index}
+        variants={ballVariants}
+        // No need to specify initial and animate here!
+        // They are automatically inherited from the parent
+      />
+    ))}
+  </motion.div>
+);
+```
+
+With variants, we can create a much cleaner implementation of staggered animations. Notice how we don't need to specify the `initial` and `animate` props on the child elements - they automatically inherit these values from the parent. The `staggerChildren` property in the parent's transition object controls the delay between each child's animation.
+
+I didn’t really want to animate the container there because it was invisible, but if you wanted to you can just change the `containerVariants` to include the entrance and exit animations.
+
+<SimpleStagger animateContainer={true} />
+
+```tsx
+const containerVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      staggerChildren: 0.1,
+      when: "beforeChildren",
+    },
+  },
+};
+
+const ballVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0 },
+};
+```
+
+Notice the `when: "beforeChildren"`, which tells Motion to animate the container first and then the staggered balls animation.
+
+## 3. Animating `height: "auto"`
+
+This is one of my favourite uses for Motion. CSS by itself can’t animate from `height: 0` to `height: "auto"` which is a very common animation, especially for things like accordions. Motion, however, allows us to animate from a numerical value (e.g. `0` ) to `"auto"` and vice-versa (from `"auto"` to `0`). Let’s see this in action with a simple FAQ accordion component.
+
+<SimpleExpandable />
+
+```tsx
+const [isOpen, setIsOpen] = useState(false);
+
+return (
+  <div>
+    <button onClick={() => setIsOpen(!isOpen)}>
+      <span>Click me to expand!</span>
+      <ChevronDown
+        className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
+      />
+    </button>
+
+    <AnimatePresence initial={false}>
+      {isOpen && (
+        <motion.div
+          initial={{ height: 0 }}
+          animate={{ height: "auto" }}
+          exit={{ height: 0 }}
+          className="overflow-hidden"
+        >
+          ...
+        </motion.div>
+      )}
+    </AnimatePresence>
+  </div>
+);
+```
+
+<Callout>
+💡 If you’re experiencing a weird “jump” when animating to `height: "auto"` it
+might be because your motion element has padding or margin. This happens
+because height only measures the content box, so extra spacing gets added
+after the animation, causing a sudden jump.
+
+```tsx
+// ❌ This causes a jump because the animating element has padding
+<motion.div
+  initial={{ height: 0 }}
+  animate={{ height: "auto" }}
+  exit={{ height: 0 }}
+  className="overflow-hidden p-4"
+>
+  ...
+</motion.div>
+
+// ✅ Moving the padding to a child div fixes it
+<motion.div
+  initial={{ height: 0 }}
+  animate={{ height: "auto" }}
+  exit={{ height: 0 }}
+  className="overflow-hidden"
+>
+	<div className="p-4">
+		...
+	</div>
+</motion.div>;
+```
+
+</Callout>
+
+Another very common animation is when we animate from `height: "auto"` to `height: "auto"`. In this case, we’re not animating from/to a fixed value so we have to literally measure the height. I like to use `react-use-measure` .
+
+```tsx
+import useMeasure from "react-use-measure";
+```
+
+The `useMeasure` hook returns an array with a `ref` and a `bounds` object. We just have to pass the ref to the element whose height we’re measuring, and `useMeasure` takes care of the rest.
+
+<SimpleUseMeasureDemo />
+
+```tsx
+const [ref, bounds] = useMeasure();
+
+return (
+  <div ref={ref}>
+    Drag to resize!
+    {`${bounds.width} x ${bounds.width} px`}
+  </div>
+);
+```
+
+Now we can set the measured height in the `animate` prop so Motion can animate to the correct height when the size of the content changes.
+
+<HeightAutoAnimation />
+
+```tsx
+let [ref, bounds] = useMeasure();
+
+return (
+  <motion.div
+    animate={{
+      height: bounds.height,
+    }}
+  >
+    <div ref={ref}>...</div>
+  </motion.div>
+);
+```
+
+<Callout>
+💡 Be careful not to pass the ref to the motion element directly. In that case we’re measuring the height of the div and passing it to itself, so the height doesn’t adjust properly. We want to measure the height of the child and animate the height of the parent based on that.
+
+```tsx
+// ❌ This doesn't work
+<motion.div
+  animate={{ height: bounds.height }}
+  ref={ref}
+>
+  ...
+</motion.div>
+
+// ✅ This works
+<motion.div
+  animate={{ height: bounds.height }}
+>
+  <div
+    ref={ref}
+  >
+    ...
+  </div>
+</motion.div>
+```
+
+</Callout>
+
+One small bug fix. You may notice a slight jitter on the initial render. This is because `useMeasure` returns 0 for the `bounds` values on the first render, so simply checking for `bounds.height` being positive fixes this.
+
+```tsx
+<motion.div animate={{ height: bounds.height > 0 ? bounds.height : null }} />
+```
+
+## 4. Direction aware animations
+
+This one’s a short one but very important. We’ll start with a simple carousel component.
+
+<SimpleCarousel />
+
+```tsx
+const slides = [1, 2, 3, 4, 5];
+
+const [index, setIndex] = useState(0);
+
+const prev = () => setIndex((i) => (i === 0 ? slides.length - 1 : i - 1));
+const next = () => setIndex((i) => (i === slides.length - 1 ? 0 : i + 1));
+
+return (
+  <div className="flex items-center justify-center gap-4">
+    <button onClick={prev}>
+      <ChevronLeft />
+    </button>
+
+    <div>{slides[index]}</div>
+
+    <button onClick={next}>
+      <ChevronRight />
+    </button>
+  </div>
+);
+```
+
+Now we’ll start animating our carousel. This part will be a nice review of the concepts covered up to this point. To animate the center slide, we can turn this into a `motion.div` and set the `x` position to the correct stage of the animation
+
+```tsx
+<motion.div initial={{ x: "100%" }} animate={{ x: "0%" }} exit={{ x: "-100%" }}>
+  {slides[index]}
+</motion.div>
+```
+
+Now just like before, we need to wrap this in an `AnimatePresence` so the exit animation works. We need to also use a `key` to tell React when to mount and unmount our slide. I added `initial={false}` to `AnimatePresence` so we don’t see an entrance animation on the first render, and only when we change slides.
+
+<SimpleCarousel animated />
+
+```tsx
+<AnimatePresence initial={false}>
+  <motion.div
+    key={`slide-${index}`}
+    initial={{ x: "100%" }}
+    animate={{ x: "0%" }}
+    exit={{ x: "-100%" }}
+  >
+    {slides[index]}
+  </motion.div>
+</AnimatePresence>
+```
+
+We see our carousel kinda working, but the animations are not direction aware. The slides are always entering from the right and exiting from the left regardless of which button we press.
+
+To fix this, let’s first move our animation states into a variants object.
+
+```tsx
+const variants = {
+  initial: { x: "100%" },
+  animate: { x: "0%" },
+  exit: { x: "-100%" }
+}
+
+...
+
+<AnimatePresence initial={false}>
+  <motion.div
+    key={`slide-${index}`}
+    variants={variants}
+    initial="initial"
+    animate="animate"
+    exit="exit"
+  >
+	  {slides[index]}
+  </motion.div>
+</AnimatePresence>
+```
+
+Now we need a way to keep track of the direction. We’ll store this in a React state
+
+```tsx
+import { useState } from "react";
+
+const slides = [1, 2, 3, 4, 5];
+
+const variants = {
+  initial: { x: "100%" },
+  animate: { x: "0%" },
+  exit: { x: "-100%" },
+};
+
+const [index, setIndex] = useState(0);
+const [direction, setDirection] = useState<1 | -1 | undefined>(undefined);
+
+const prev = () => {
+  setDirection(-1);
+  setIndex((i) => (i === 0 ? slides.length - 1 : i - 1));
+};
+
+const next = () => {
+  setDirection(1);
+  setIndex((i) => (i === slides.length - 1 ? 0 : i + 1));
+};
+
+return (
+  <div className="flex items-center justify-center gap-4">
+    <button onClick={prev}>
+      <ChevronLeft />
+    </button>
+
+    <AnimatePresence initial={false}>
+      <motion.div
+        key={`slide-${index}`}
+        variants={variants}
+        initial="initial"
+        animate="animate"
+        exit="exit"
+      >
+        {slides[index]}
+      </motion.div>
+    </AnimatePresence>
+
+    <button onClick={next}>
+      <ChevronRight />
+    </button>
+  </div>
+);
+```
+
+Now we need a way to pass the direction to our variants, so that our variants become [dynamic](https://motion.dev/docs/react-animation#dynamic-variants). We can do this via the `custom` prop. We’ll pass the direction to the custom prop, and redefine our variants to use the direction as a parameter.
+
+```tsx
+let variants = {
+  initial: (direction) => {
+    return { x: `${100 * direction}%` };
+  },
+  animate: { x: "0%" },
+  exit: (direction) => {
+    return { x: `${-100 * direction}%` };
+  },
+};
+
+...
+
+<AnimatePresence initial={false}>
+  <motion.div
+    key={`slide-${index}`}
+    variants={variants}
+    initial="initial"
+    animate="animate"
+    exit="exit"
+    custom={direction}
+  >
+    {slides[index]}
+  </motion.div>
+</AnimatePresence>
+```
+
+This almost works. Notice that the slides are entering from the correct direction, but the exit animations are using a stale `direction` value. This is because of how React works. From Motion’s docs:
+
+> When a component is removed, there's no longer a chance to update its props (because it's no longer in the React tree). Therefore we can't update its exit animation with the same render that removed the component.
+
+Fortunately, Motion gives us a simple solution. We just have to pass the custom prop to `AnimatePresence` as well, and the exit animation will have access to the latest `direction` value.
+
+```tsx
+<AnimatePresence initial={false} custom={direction}>
+  ...
+</AnimatePresence>
+```
+
+<SimpleCarousel animated directionAware />
+
+## 5. Layout animations
+
+This is perhaps the most powerful feature of Motion. With layout animations, you’re able to create a smooth transition from an old position/size to a new one. You simply define the start and the end of the layout, and Motion will figure out the middle states.
+
+Here we’ll animate a simple toggle component.
+
+<SimpleSwitch />
+
+```tsx
+const [on, setOn] = useState(false);
+
+<div
+  style={{
+    display: "flex",
+    justifyContent: isOn ? "flex-start" : "flex-end",
+  }}
+>
+  <span className="rounded-full" />
+</div>;
+```
+
+Now all we have to do to animate this is turn the `div` into a `motion.div` and add a `layout` prop, and Motion will take care of the rest.
+
+<SimpleSwitch animated />
+
+```tsx
+const [on, setOn] = useState(false);
+
+<motion.div
+  layout
+  style={{
+    display: "flex",
+    justifyContent: isOn ? "flex-start" : "flex-end",
+  }}
+>
+  <span className="rounded-full" />
+</motion.div>;
+```
+
+With just the addition of one prop we’re able to animate our toggle. As you can tell, there’s a lot of “magic” going on behind the scenes which is why sometimes layout animations can be hard to debug.
+
+Motion also provides an API for “shared” layout animations. This allows you to create a transition between two different elements that share the same `layoutId` . A simple example is the following navigation menu animation.
+
+<AnimatedNavigation />
+
+```tsx
+const items = ["Home", "About", "Contact", "Services", "Products"];
+const [activeItem, setActiveItem] = useState<string | undefined>("Home");
+
+return (
+  <div className="flex items-center justify-center gap-4">
+    {items.map((item) => (
+      <button
+        key={item}
+        onMouseOver={() => setActiveItem(item)}
+        className="relative"
+      >
+        {activeItem === item && (
+          <motion.span
+            layoutId="bubble"
+            className="absolute inset-0 bg-black/10rounded-md"
+          />
+        )}
+        <span className="relative z-10">{item}</span>
+      </button>
+    ))}
+  </div>
+);
+```
+
+Notice how every element is conditionally rendering its own highlighted span, but because of the `layoutId`, Motion is able to create a transition between its different positions.
+
+## Key Takeaways
+
+- Use the `exit` prop and `AnimatePresence` to implement exit animations.
+- Use the `key` prop to tell React when to mount/unmount an animation.
+- To implement staggered animation, you can either incrementally increase the `delay` in the `transition` prop for each node, or you can simply pass `staggerChildren` to the parent container.
+- Motion can easily animate between a fixed height to `"auto"` and vice versa. If you want to animate between dynamic heights, use the `useMeasure` hook.
+- For direction aware animations, pass the direction to the `custom` prop of your motion component and then use it as a parameter in your `variants` . Make sure to also include the `custom` prop in `AnimatePresence` if you have exit animations.
+- Add the `layout` prop to animate size and positioning. If you want to animate between two different elements, you can use shared layout animations via `layoutId`.
+
+That’s it! I hope these patterns will help you with your animations. If you make something cool, feel free to share it with me. Happy animating!
