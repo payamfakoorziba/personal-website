@@ -29,7 +29,7 @@ export default function RootLayout({
             attribute="class"
             defaultTheme="dark"
             enableSystem
-            disableTransitionOnChange
+            // disableTransitionOnChange
           >
             <Layout>{children}</Layout>
           </ThemeProvider>

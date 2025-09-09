@@ -5,7 +5,7 @@ const experiences = [
     company: "Story.com",
     position: "Lead Frontend Developer and Designer",
     startDate: "September 2024",
-    endDate: "Present",
+    endDate: "June 2024",
     description:
       "Lead the development of Story.com, an AI storytelling platform that allows users to create AI movies and stories.",
   },
@@ -39,16 +39,16 @@ const Experiences = () => {
           <div key={index} className="mt-6 border-b pb-10">
             <div className="flex flex-col md:flex-row justify-between">
               <div>
-                <h4 className="text-lg md:text-xl">{experience.company}</h4>
-                <h5 className="text-sm md:text-base font-medium">
-                  {experience.position}
-                </h5>
+                <h4 className="text-lg md:text-xl font-medium">
+                  {experience.company}
+                </h4>
+                <h5 className="text-sm md:text-base">{experience.position}</h5>
               </div>
               <p className="font-light text-stone-600 dark:text-stone-300 mt-2 md:mt-0 text-xs md:text-sm">
                 {experience.startDate} - {experience.endDate}
               </p>
             </div>
-            <p className="text-sm/relaxed md:text-base/relaxed mt-6">
+            <p className="text-sm/relaxed md:text-base/relaxed mt-5 font-light opacity-90">
               {experience.description}
             </p>
           </div>

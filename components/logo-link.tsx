@@ -34,7 +34,11 @@ export function LogoLink({
         </Link>
       </TooltipTrigger>
       {screenShot && (
-        <TooltipContent className="w-60 h-40 rounded-md overflow-hidden relative border-none group">
+        <TooltipContent
+          className="w-60 h-40 rounded-md overflow-hidden relative border-none group"
+          showArrow={false}
+          sideOffset={4}
+        >
           <Link href={href} target="_blank">
             <Image
               src={screenShot}
@@ -45,11 +49,10 @@ export function LogoLink({
               placeholder="blur"
             />
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-foreground/50 transition-all duration-200 flex items-center justify-center backdrop-blur-xs gap-1">
-              <div className="flex items-center gap-1 bg-accent px-2 py-1 rounded-md text-sm font-medium">
+              <div className="flex items-center gap-1 bg-accent/85 hover:bg-accent/100 text-accent-foreground transition-colors duration-100 px-2 py-1 rounded-md text-sm font-medium">
                 Visit Website
-                <ArrowUpRight className="w-4 h-4" />
+                <ArrowUpRight className="size-4" />
               </div>
-              {/* </span> */}
             </div>
           </Link>
         </TooltipContent>

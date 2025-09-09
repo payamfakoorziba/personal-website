@@ -1,5 +1,4 @@
 import { Container } from "@/components/container";
-import { Spotlight } from "@/components/ui/spotlight";
 import Link from "next/link";
 import {
   GitHubIcon,
