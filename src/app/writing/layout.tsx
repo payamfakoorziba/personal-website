@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const WritingLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <main className="py-24 font-sans">
+    <main className="py-16 md:py-24 font-sans">
       <Container
       // className="prose prose-h1:text-xl prose-h1:font-semibold prose-h2:text-lg prose-h2:font-semibold text-foreground"
       >

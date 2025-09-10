@@ -7,7 +7,7 @@ import ConnectSection from "@/components/sections/connect";
 
 export default function Home() {
   return (
-    <main className="py-32 font-sans">
+    <main className="py-20 md:py-32 font-sans">
       <Container>
         <IntroSection />
         <ProjectsSection />

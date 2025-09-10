@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 type Digit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
-const DEFAULT_TIME = 10;
+const DEFAULT_TIME = 2;
 
 const KitchenTimer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -15,11 +15,16 @@ const KitchenTimer = () => {
   const [isFinished, setIsFinished] = useState(false);
   const [isFlashing, setIsFlashing] = useState(false);
   const beepTimeoutsRef = useRef<NodeJS.Timeout[]>([]);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    audioRef.current = new Audio("/sfx/beep.mp3");
+  }, []);
 
   // Function to play beep sound
   const playBeep = () => {
-    const audio = new Audio("/sfx/shorter-beep.mp3");
-    audio.play().catch((error) => {
+    const audio = audioRef.current;
+    audio?.play().catch((error) => {
       console.log("Audio play failed:", error);
     });
   };
@@ -177,7 +182,7 @@ const KitchenTimer = () => {
       <div className="flex gap-2 [&_svg]:fill-neutral-600 [&_svg]:stroke-neutral-600">
         <Button
           variant="secondary"
-          onClick={handlePlayPause}
+          onMouseDown={handlePlayPause}
           className="bg-neutral-100 hover:bg-neutral-200"
         >
           {isPlaying || isFinished ? <Pause /> : <Play />}

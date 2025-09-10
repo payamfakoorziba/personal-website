@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   motion,
   AnimatePresence,
@@ -36,6 +36,7 @@ const AnimatedDropdown = <T extends string>({
 
   let [ref, bounds] = useMeasure();
   let [triggerRef, triggerBounds] = useMeasure();
+  const startingPosition = useRef(0);
 
   return (
     <MotionConfig transition={defaultTransition}>
@@ -50,6 +51,12 @@ const AnimatedDropdown = <T extends string>({
             onClick={() => setOpen((pv) => !pv)}
           >
             <motion.div
+              onAnimationStart={() => {
+                startingPosition.current = bounds.x;
+              }}
+              onAnimationComplete={() => {
+                startingPosition.current = bounds.x;
+              }}
               animate={{
                 height:
                   triggerBounds.height > 0
@@ -62,7 +69,7 @@ const AnimatedDropdown = <T extends string>({
               }}
               transition={{
                 ...defaultTransition,
-                duration: open ? defaultTransition.duration : 0,
+                // duration: open ? defaultTransition.duration : 0,
               }}
               className={cn(
                 "absolute inset-0 rounded-xl bg-lime-400",
@@ -118,7 +125,10 @@ const AnimatedDropdown = <T extends string>({
                     contentClassName
                   )}
                 >
-                  <div ref={ref} className="flex flex-col w-fit px-4 pb-4">
+                  <div
+                    ref={ref}
+                    className="flex flex-col w-fit px-2 md:px-4 pb-2 md:pb-4"
+                  >
                     {values
                       .filter((item: string) => item !== selected)
                       .map((item: string) => (
@@ -129,7 +139,7 @@ const AnimatedDropdown = <T extends string>({
                             setOpen(false);
                           }}
                           className={cn(
-                            "opacity-50 cursor-pointer text-left hover:opacity-100 focus-visible:outline-none focus-visible:opacity-100 py-1"
+                            "opacity-50 cursor-pointer text-left hover:opacity-100 focus-visible:outline-none focus-visible:opacity-100 py-0.5 md:py-1"
                           )}
                         >
                           {item}
