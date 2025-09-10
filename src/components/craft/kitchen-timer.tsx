@@ -1,17 +1,78 @@
 "use client";
 
-import { Pause, Play, Plus, RotateCcw } from "lucide-react";
+import { Pause, Play } from "lucide-react";
 import { Button } from "../ui/button";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 type Digit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
+const DEFAULT_TIME = 10;
+
 const KitchenTimer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(5 * 60); // 5 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(DEFAULT_TIME); // 5 seconds
+  const [isFinished, setIsFinished] = useState(false);
+  const [isFlashing, setIsFlashing] = useState(false);
+  const beepTimeoutsRef = useRef<NodeJS.Timeout[]>([]);
+
+  // Function to play beep sound
+  const playBeep = () => {
+    const audio = new Audio("/sfx/shorter-beep.mp3");
+    audio.play().catch((error) => {
+      console.log("Audio play failed:", error);
+    });
+  };
+
+  // Function to clear all beep timeouts
+  const clearBeepTimeouts = () => {
+    beepTimeoutsRef.current.forEach((timeoutId) => {
+      clearTimeout(timeoutId);
+    });
+    beepTimeoutsRef.current = [];
+  };
+
+  // Function to play the kitchen timer beep pattern (4 beeps, pause, 4 beeps)
+  const playKitchenTimerBeeps = () => {
+    // Clear any existing beep timeouts first
+    clearBeepTimeouts();
+
+    // First set of 4 beeps
+    for (let i = 0; i < 4; i++) {
+      const timeoutId = setTimeout(() => {
+        if (isFinished) playBeep();
+      }, i * 200);
+      beepTimeoutsRef.current.push(timeoutId);
+    }
+
+    // Pause for 1 second, then second set of 4 beeps
+    const pauseTimeoutId = setTimeout(() => {
+      for (let i = 0; i < 4; i++) {
+        const timeoutId = setTimeout(() => {
+          if (isFinished) playBeep();
+        }, i * 200);
+        beepTimeoutsRef.current.push(timeoutId);
+      }
+    }, 1500);
+    beepTimeoutsRef.current.push(pauseTimeoutId);
+  };
+
+  const handlePlayPause = useCallback(() => {
+    console.log("isFinished", isFinished);
+    playBeep();
+    // Reset finished state when starting a new timer
+    if (isFinished) {
+      clearBeepTimeouts(); // Stop any ongoing beep sequence
+      setIsFinished(false);
+      setIsFlashing(false);
+      setTimeLeft(DEFAULT_TIME);
+    } else {
+      setIsPlaying(!isPlaying);
+    }
+  }, [isFinished, isPlaying]);
 
   useEffect(() => {
+    console.log("useEffect", isPlaying, timeLeft);
     let interval: NodeJS.Timeout | null = null;
 
     if (isPlaying && timeLeft > 0) {
@@ -20,12 +81,48 @@ const KitchenTimer = () => {
       }, 1000);
     } else if (timeLeft === 0) {
       setIsPlaying(false);
+      setIsFinished(true);
+      setIsFlashing(true);
+      playKitchenTimerBeeps(); // Play the kitchen timer beep pattern
     }
 
     return () => {
       if (interval) clearInterval(interval);
     };
   }, [isPlaying, timeLeft]);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null;
+    if (isFinished) {
+      interval = setInterval(() => {
+        setIsFlashing((prev) => !prev);
+      }, 500);
+    }
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isFinished]);
+
+  // Handle space key for play/pause
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.code === "Space") {
+        event.preventDefault();
+        handlePlayPause();
+      }
+    };
+
+    window.addEventListener("keypress", handleKeyPress);
+    return () => window.removeEventListener("keypress", handleKeyPress);
+  }, [handlePlayPause]);
+
+  // Cleanup beep timeouts on unmount
+  useEffect(() => {
+    return () => {
+      clearBeepTimeouts();
+    };
+  }, []);
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
@@ -44,10 +141,12 @@ const KitchenTimer = () => {
           <SevenSegmentDisplay
             value={minutesTens as Digit}
             className="w-20 h-fit"
+            isFlashing={isFlashing}
           />
           <SevenSegmentDisplay
             value={minutesOnes as Digit}
             className="w-20 h-fit"
+            isFlashing={isFlashing}
           />
 
           <span className="absolute top-0 -translate-y-full right-2 font-semibold text-neutral-600">
@@ -59,10 +158,12 @@ const KitchenTimer = () => {
           <SevenSegmentDisplay
             value={secondsTens as Digit}
             className="w-12 h-fit"
+            isFlashing={isFlashing}
           />
           <SevenSegmentDisplay
             value={secondsOnes as Digit}
             className="w-12 h-fit"
+            isFlashing={isFlashing}
           />
 
           <span className="absolute top-0 -translate-y-full right-2 font-semibold text-neutral-600">
@@ -74,8 +175,12 @@ const KitchenTimer = () => {
       {/* Buttons */}
       {/* Target ALL svgs inside the buttons and set the fill color to neutral-600 */}
       <div className="flex gap-2 [&_svg]:fill-neutral-600 [&_svg]:stroke-neutral-600">
-        <Button variant="secondary" onClick={() => setIsPlaying(!isPlaying)}>
-          {isPlaying ? <Pause /> : <Play />}
+        <Button
+          variant="secondary"
+          onClick={handlePlayPause}
+          className="bg-neutral-100 hover:bg-neutral-200"
+        >
+          {isPlaying || isFinished ? <Pause /> : <Play />}
         </Button>
       </div>
     </div>
@@ -85,9 +190,11 @@ const KitchenTimer = () => {
 const SevenSegmentDisplay = ({
   value,
   className,
+  isFlashing,
 }: {
   value?: Digit;
   className?: string;
+  isFlashing?: boolean;
 }) => {
   // 7-segment display patterns for digits 0-9
   const SEGMENT_PATTERNS = {
@@ -105,7 +212,7 @@ const SevenSegmentDisplay = ({
 
   // If value is undefined, turn off all segments
   const segments =
-    value !== undefined
+    value !== undefined && !isFlashing
       ? SEGMENT_PATTERNS[value]
       : [false, false, false, false, false, false, false];
 
@@ -117,7 +224,7 @@ const SevenSegmentDisplay = ({
       viewBox="-1 -1 12 20"
       stroke="#FFF"
       strokeWidth=".25"
-      className={cn("w-full h-full [&_polygon]:transition-all", className)}
+      className={cn("w-full h-full", className)}
     >
       <polygon
         id="a"
