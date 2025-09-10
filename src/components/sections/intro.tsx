@@ -1,17 +1,9 @@
 "use client";
 
 import { GalleryWithToggle } from "@/components/sections/gallery";
-import { useTheme } from "next-themes";
 import Link from "next/link";
-import { useEffect } from "react";
 
 export default function IntroSection() {
-  const { setTheme } = useTheme();
-
-  useEffect(() => {
-    setTheme("light");
-  }, []);
-
   return (
     <>
       <h1 className="font-semibold">Payam Fakoorziba</h1>
