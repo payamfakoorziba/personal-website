@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 type Digit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
-const DEFAULT_TIME = 2;
+const DEFAULT_TIME = 10;
 
 const KitchenTimer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
