@@ -131,14 +131,14 @@
   body {
     @apply bg-background text-foreground;
   }
+}
 
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 code[data-theme],
@@ -160,19 +160,4 @@ code:not([data-theme]) {
   @apply bg-neutral-50 dark:bg-neutral-800 px-1.5 py-0.5 rounded text-sm font-mono border whitespace-nowrap;
   font-size: 0.875em;
   line-height: 1;
-}
-
-/* Highlighted lines */
-[data-line][data-highlighted-line] {
-  background-color: var(--color-neutral-100);
-}
-
-/* Added lines */
-[data-line][data-highlighted-line][data-line-added] {
-  background-color: rgba(0, 255, 0, 0.1);
-}
-
-/* Deleted lines */
-[data-line][data-highlighted-line][data-line-deleted] {
-  background-color: rgba(255, 0, 0, 0.1);
 }

@@ -75,6 +75,11 @@ export default function ConnectSection() {
             label: "LinkedIn",
             href: "https://www.linkedin.com/in/payam-fakoorziba-b115071b3/",
           },
+          {
+            label: "Resume",
+            href: "/resume.pdf",
+            target: "_blank",
+          },
         ].map((item) => (
           <Link
             key={item.label}

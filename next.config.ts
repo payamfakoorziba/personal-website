@@ -1,8 +1,8 @@
 import createMDX from "@next/mdx";
 import { rehypePrettyCode } from "rehype-pretty-code";
+import type { NextConfig } from "next";
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
   pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
   eslint: {
     ignoreDuringBuilds: true,
@@ -10,9 +10,11 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  images: {
-    unoptimized: true,
-  },
+  // images: {
+  //   unoptimized: true,
+  // },
+  // TODO: look into why the styling is not working
+  devIndicators: false,
 };
 
 const options = {
