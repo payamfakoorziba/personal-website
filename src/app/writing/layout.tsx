@@ -2,7 +2,13 @@ import Container from "@/components/layout/container";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
-const WritingLayout = ({ children }: { children: React.ReactNode }) => {
+const WritingLayout = ({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: { slug: string };
+}) => {
   return (
     <main className="py-16 md:py-24 font-sans">
       <Container

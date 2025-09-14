@@ -60,20 +60,20 @@ export default function ConnectSection() {
       <div className="mt-8 flex flex-wrap gap-4">
         {[
           {
-            label: "Instagram",
-            href: "https://www.instagram.com/payamfkz/",
-          },
-          {
             label: "X (Twitter)",
             href: "https://x.com/payamfkz",
           },
           {
-            label: "GitHub",
-            href: "https://github.com/payamfakoorziba",
-          },
-          {
             label: "LinkedIn",
             href: "https://www.linkedin.com/in/payam-fakoorziba-b115071b3/",
+          },
+          {
+            label: "Instagram",
+            href: "https://www.instagram.com/payamfkz/",
+          },
+          {
+            label: "GitHub",
+            href: "https://github.com/payamfakoorziba",
           },
           {
             label: "Resume",

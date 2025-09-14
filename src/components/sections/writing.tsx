@@ -1,7 +1,10 @@
 import { cn } from "@/lib/utils";
+import redis from "@/lib/redis";
 import Link from "next/link";
 
-export default function WritingSection() {
+export default async function WritingSection() {
+  const views =
+    (await redis.get<number>(["writing", "motion-patterns"].join(":"))) ?? 0;
   return (
     <div className="mt-[60px]">
       <h3 className="font-semibold">Writing</h3>
@@ -13,19 +16,6 @@ export default function WritingSection() {
               "A collection of practical Motion techniques for modern UIs",
             link: "/writing/motion-patterns",
           },
-          // {
-          //   title: "File uploading with Cloudflare R2",
-          //   description: "How to implement file uploading with pre-signed urls",
-          //   link: "#",
-          //   disabled: true,
-          // },
-          // {
-          //   title: "Fun with wavesurfer.js",
-          //   description:
-          //     "How to use wavesurfer.js to create a simple audio player",
-          //   link: "#",
-          //   disabled: true,
-          // },
         ].map((item) => (
           <Link
             key={item.title}
@@ -39,6 +29,9 @@ export default function WritingSection() {
             />
             <h4 className="font-medium">{item.title}</h4>
             <p className="text-muted-foreground text-sm">{item.description}</p>
+            <span className="text-muted-foreground text-xs mt-2.5 inline-block">
+              {views} view{views === 1 ? "" : "s"}
+            </span>
           </Link>
         ))}
       </div>

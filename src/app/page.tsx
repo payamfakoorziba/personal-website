@@ -10,8 +10,8 @@ export default function Home() {
     <main className="py-20 md:py-32 font-sans">
       <Container>
         <IntroSection />
-        <ProjectsSection />
         <WritingSection />
+        <ProjectsSection />
         <CraftSection />
         <ConnectSection />
       </Container>
