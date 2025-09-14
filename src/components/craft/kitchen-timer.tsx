@@ -142,15 +142,15 @@ const KitchenTimer = () => {
       {/* Main timer */}
       <div className="flex items-end gap-2">
         {/* Minutes */}
-        <div className="flex h-fit relative">
+        <div className="flex relative">
           <SevenSegmentDisplay
             value={minutesTens as Digit}
-            className="w-20 h-fit"
+            className="w-16 sm:w-20"
             isFlashing={isFlashing}
           />
           <SevenSegmentDisplay
             value={minutesOnes as Digit}
-            className="w-20 h-fit"
+            className="w-16 sm:w-20"
             isFlashing={isFlashing}
           />
 
@@ -162,12 +162,12 @@ const KitchenTimer = () => {
         <div className="flex relative">
           <SevenSegmentDisplay
             value={secondsTens as Digit}
-            className="w-12 h-fit"
+            className="w-10 sm:w-12"
             isFlashing={isFlashing}
           />
           <SevenSegmentDisplay
             value={secondsOnes as Digit}
-            className="w-12 h-fit"
+            className="w-10 sm:w-12"
             isFlashing={isFlashing}
           />
 
@@ -224,12 +224,10 @@ const SevenSegmentDisplay = ({
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="192"
-      height="320"
       viewBox="-1 -1 12 20"
       stroke="#FFF"
       strokeWidth=".25"
-      className={cn("w-full h-full", className)}
+      className={cn(className)}
     >
       <polygon
         id="a"
