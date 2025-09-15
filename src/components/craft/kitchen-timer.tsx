@@ -1,9 +1,16 @@
 "use client";
 
-import { Pause, Play } from "lucide-react";
+import { Pause, Play, RotateCcw } from "lucide-react";
 import { Button } from "../ui/button";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { cn } from "@/lib/utils";
+import { Howl } from "howler";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
 
 type Digit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
@@ -15,18 +22,34 @@ const KitchenTimer = () => {
   const [isFinished, setIsFinished] = useState(false);
   const [isFlashing, setIsFlashing] = useState(false);
   const beepTimeoutsRef = useRef<NodeJS.Timeout[]>([]);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const beepSoundRef = useRef<Howl | null>(null);
 
   useEffect(() => {
-    audioRef.current = new Audio("/sfx/beep.mp3");
+    const beepSound = new Howl({
+      src: ["/sfx/new-beep.mp3"],
+      preload: true,
+      volume: 1.0,
+    });
+    beepSoundRef.current = beepSound;
   }, []);
 
   // Function to play beep sound
   const playBeep = () => {
-    const audio = audioRef.current;
-    audio?.play().catch((error) => {
-      console.log("Audio play failed:", error);
-    });
+    const beepSound = beepSoundRef.current;
+    console.log("beepSound", beepSound);
+
+    if (beepSound) {
+      // Ensure the sound is loaded before playing
+      if (beepSound.state() === "loaded") {
+        beepSound.play();
+      } else {
+        // If not loaded yet, wait for it to load then play
+        beepSound.once("load", () => {
+          console.log("beepSound loaded");
+          beepSound.play();
+        });
+      }
+    }
   };
 
   // Function to clear all beep timeouts
@@ -46,7 +69,7 @@ const KitchenTimer = () => {
     for (let i = 0; i < 4; i++) {
       const timeoutId = setTimeout(() => {
         if (isFinished) playBeep();
-      }, i * 200);
+      }, i * 150);
       beepTimeoutsRef.current.push(timeoutId);
     }
 
@@ -55,22 +78,25 @@ const KitchenTimer = () => {
       for (let i = 0; i < 4; i++) {
         const timeoutId = setTimeout(() => {
           if (isFinished) playBeep();
-        }, i * 200);
+        }, i * 150);
         beepTimeoutsRef.current.push(timeoutId);
       }
     }, 1500);
     beepTimeoutsRef.current.push(pauseTimeoutId);
   };
 
+  const handleReset = useCallback(() => {
+    setIsFinished(false);
+    setIsFlashing(false);
+    setIsPlaying(false);
+    setTimeLeft(DEFAULT_TIME);
+  }, []);
+
   const handlePlayPause = useCallback(() => {
-    console.log("isFinished", isFinished);
     playBeep();
     // Reset finished state when starting a new timer
     if (isFinished) {
-      clearBeepTimeouts(); // Stop any ongoing beep sequence
-      setIsFinished(false);
-      setIsFlashing(false);
-      setTimeLeft(DEFAULT_TIME);
+      handleReset();
     } else {
       setIsPlaying(!isPlaying);
     }
@@ -111,21 +137,33 @@ const KitchenTimer = () => {
 
   // Handle space key for play/pause
   useEffect(() => {
-    const handleKeyPress = (event: KeyboardEvent) => {
+    const handleKeyDown = (event: KeyboardEvent) => {
       if (event.code === "Space") {
         event.preventDefault();
         handlePlayPause();
       }
+      // Press escape
+      if (event.code === "Escape") {
+        event.preventDefault();
+        handleReset();
+      }
     };
 
-    window.addEventListener("keypress", handleKeyPress);
-    return () => window.removeEventListener("keypress", handleKeyPress);
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keypress", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keypress", handleKeyDown);
+    };
   }, [handlePlayPause]);
 
-  // Cleanup beep timeouts on unmount
+  // Cleanup beep timeouts and sound on unmount
   useEffect(() => {
     return () => {
       clearBeepTimeouts();
+      if (beepSoundRef.current) {
+        beepSoundRef.current.unload();
+      }
     };
   }, []);
 
@@ -179,14 +217,48 @@ const KitchenTimer = () => {
 
       {/* Buttons */}
       {/* Target ALL svgs inside the buttons and set the fill color to neutral-600 */}
-      <div className="flex gap-2 [&_svg]:fill-neutral-600 [&_svg]:stroke-neutral-600">
-        <Button
-          variant="secondary"
-          onMouseDown={handlePlayPause}
-          className="bg-neutral-100 hover:bg-neutral-200"
-        >
-          {isPlaying || isFinished ? <Pause /> : <Play />}
-        </Button>
+      <div className="flex gap-2">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="secondary"
+                onMouseDown={handlePlayPause}
+                className="bg-neutral-100 hover:bg-neutral-200 [&_svg]:fill-neutral-600 [&_svg]:stroke-neutral-600"
+              >
+                {isPlaying || isFinished ? <Pause /> : <Play />}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="p-1.5 text-xs">
+              <div className="inline-flex relative">
+                {isPlaying || isFinished ? "Pause" : "Play"}
+                <span className="text-[8px] border border-neutral-500 px-[3px] py-[1.5px] rounded-sm ml-1">
+                  space
+                </span>
+              </div>
+            </TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="secondary"
+                onMouseDown={handleReset}
+                className="bg-neutral-100 hover:bg-neutral-200 [&_svg]:stroke-neutral-600"
+              >
+                <RotateCcw className="size-4 stroke-3" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="p-1.5 text-xs">
+              <div className="inline-flex relative">
+                Reset
+                <span className="text-[8px] border border-neutral-500 px-[3px] py-[1.5px] rounded-sm ml-1">
+                  esc
+                </span>
+              </div>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     </div>
   );
