@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
 // Image metadata
-export const alt = "About Acme";
+export const alt = "Motion Patterns";
 export const size = {
   width: 1200,
   height: 630,
@@ -15,7 +15,7 @@ export const contentType = "image/png";
 export default async function Image() {
   // Font loading, process.cwd() is Next.js project directory
   const interSemiBold = await readFile(
-    join(process.cwd(), "assets/Inter-SemiBold.ttf")
+    join(process.cwd(), "src/assets/Inter-SemiBold.ttf")
   );
 
   return new ImageResponse(
