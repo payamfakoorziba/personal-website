@@ -15,6 +15,15 @@ const nextConfig: NextConfig = {
   // },
   // TODO: look into why the styling is not working
   devIndicators: false,
+  async redirects() {
+    return [
+      {
+        source: "/about",
+        destination: "/",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 const options = {
