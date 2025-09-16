@@ -54,7 +54,7 @@ function SimpleCarouselComponent({
       <div className="relative overflow-hidden">
         <AnimatePresence initial={false} mode="popLayout" custom={direction}>
           <motion.div
-            className="size-80 flex items-center justify-center bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-md text-2xl font-medium"
+            className="size-56 sm:size-80 flex items-center justify-center bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-md text-2xl font-medium"
             variants={variants}
             initial={animated ? "initial" : undefined}
             animate={animated ? "animate" : undefined}

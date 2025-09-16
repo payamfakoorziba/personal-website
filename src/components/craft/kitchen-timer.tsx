@@ -17,39 +17,18 @@ type Digit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 const DEFAULT_TIME = 10;
 
 const KitchenTimer = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [timerState, setTimerState] = useState<"idle" | "active" | "finished">(
+    "idle"
+  );
   const [timeLeft, setTimeLeft] = useState(DEFAULT_TIME); // 5 seconds
-  const [isFinished, setIsFinished] = useState(false);
-  const [isFlashing, setIsFlashing] = useState(false);
   const beepTimeoutsRef = useRef<NodeJS.Timeout[]>([]);
   const beepSoundRef = useRef<Howl | null>(null);
-
-  useEffect(() => {
-    const beepSound = new Howl({
-      src: ["/sfx/new-beep.mp3"],
-      preload: true,
-      volume: 1.0,
-    });
-    beepSoundRef.current = beepSound;
-  }, []);
+  const buttonMouseDownIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Function to play beep sound
   const playBeep = () => {
     const beepSound = beepSoundRef.current;
-    console.log("beepSound", beepSound);
-
-    if (beepSound) {
-      // Ensure the sound is loaded before playing
-      if (beepSound.state() === "loaded") {
-        beepSound.play();
-      } else {
-        // If not loaded yet, wait for it to load then play
-        beepSound.once("load", () => {
-          console.log("beepSound loaded");
-          beepSound.play();
-        });
-      }
-    }
+    beepSound?.play();
   };
 
   // Function to clear all beep timeouts
@@ -60,15 +39,11 @@ const KitchenTimer = () => {
     beepTimeoutsRef.current = [];
   };
 
-  // Function to play the kitchen timer beep pattern (4 beeps, pause, 4 beeps)
-  const playKitchenTimerBeeps = () => {
-    // Clear any existing beep timeouts first
-    clearBeepTimeouts();
-
+  const playFinishedBeeps = () => {
     // First set of 4 beeps
     for (let i = 0; i < 4; i++) {
       const timeoutId = setTimeout(() => {
-        if (isFinished) playBeep();
+        playBeep();
       }, i * 150);
       beepTimeoutsRef.current.push(timeoutId);
     }
@@ -77,7 +52,7 @@ const KitchenTimer = () => {
     const pauseTimeoutId = setTimeout(() => {
       for (let i = 0; i < 4; i++) {
         const timeoutId = setTimeout(() => {
-          if (isFinished) playBeep();
+          playBeep();
         }, i * 150);
         beepTimeoutsRef.current.push(timeoutId);
       }
@@ -85,55 +60,108 @@ const KitchenTimer = () => {
     beepTimeoutsRef.current.push(pauseTimeoutId);
   };
 
-  const handleReset = useCallback(() => {
-    setIsFinished(false);
-    setIsFlashing(false);
-    setIsPlaying(false);
-    setTimeLeft(DEFAULT_TIME);
-  }, []);
+  const handleReset = () => {
+    clearBeepTimeouts();
+    setTimerState("idle");
+    setTimeLeft(0);
+  };
 
-  const handlePlayPause = useCallback(() => {
+  const handlePlayPause = () => {
+    if (timeLeft === 0) return;
     playBeep();
-    // Reset finished state when starting a new timer
-    if (isFinished) {
+    clearBeepTimeouts();
+    if (timerState === "finished") {
       handleReset();
     } else {
-      setIsPlaying(!isPlaying);
+      setTimerState(timerState === "active" ? "idle" : "active");
     }
-  }, [isFinished, isPlaying]);
+  };
+
+  const handleIncrement = () => {
+    const newTimeLeft = timeLeft + 5;
+    setTimeLeft(newTimeLeft);
+  };
+
+  const handleStartIncrementing = () => {
+    const newTimeLeft = timeLeft + 5;
+    setTimeLeft(newTimeLeft);
+
+    // Start incrementing after a short delay
+    const timeoutId = setTimeout(() => {
+      buttonMouseDownIntervalRef.current = setInterval(() => {
+        setTimeLeft((time) => time + 5);
+      }, 100);
+    }, 300);
+    buttonMouseDownIntervalRef.current = timeoutId;
+  };
+
+  const handleStopIncrementing = () => {
+    if (buttonMouseDownIntervalRef.current) {
+      clearInterval(buttonMouseDownIntervalRef.current);
+      buttonMouseDownIntervalRef.current = null;
+    }
+  };
+
+  const handleDecrement = () => {
+    const newTimeLeft = Math.max(0, timeLeft - 5);
+    setTimeLeft(newTimeLeft);
+  };
+
+  const handleStartDecrementing = () => {
+    const newTimeLeft = Math.max(0, timeLeft - 5);
+    setTimeLeft(newTimeLeft);
+
+    // Start incrementing after a short delay
+    const timeoutId = setTimeout(() => {
+      buttonMouseDownIntervalRef.current = setInterval(() => {
+        setTimeLeft((time) => Math.max(0, time - 5));
+      }, 100);
+    }, 300);
+    buttonMouseDownIntervalRef.current = timeoutId;
+  };
+
+  const handleStopDecrementing = () => {
+    if (buttonMouseDownIntervalRef.current) {
+      clearInterval(buttonMouseDownIntervalRef.current);
+      buttonMouseDownIntervalRef.current = null;
+    }
+  };
 
   useEffect(() => {
-    console.log("useEffect", isPlaying, timeLeft);
-    let interval: NodeJS.Timeout | null = null;
+    // Initialize the beep sound
+    const beepSound = new Howl({
+      src: ["/sfx/new-beep.mp3"],
+      preload: true,
+      volume: 1.0,
+    });
+    beepSoundRef.current = beepSound;
 
-    if (isPlaying && timeLeft > 0) {
+    // Clean up
+    return () => {
+      clearBeepTimeouts();
+      if (beepSoundRef.current) {
+        beepSoundRef.current.unload();
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null;
+    if (timerState !== "active") return;
+
+    if (timeLeft > 0) {
       interval = setInterval(() => {
         setTimeLeft((time) => time - 1);
       }, 1000);
     } else if (timeLeft === 0) {
-      setIsPlaying(false);
-      setIsFinished(true);
-      setIsFlashing(true);
-      playKitchenTimerBeeps(); // Play the kitchen timer beep pattern
+      setTimerState("finished");
+      playFinishedBeeps(); // Play the kitchen timer beep pattern
     }
 
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isPlaying, timeLeft]);
-
-  useEffect(() => {
-    let interval: NodeJS.Timeout | null = null;
-    if (isFinished) {
-      interval = setInterval(() => {
-        setIsFlashing((prev) => !prev);
-      }, 500);
-    }
-
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [isFinished]);
+  }, [timerState, timeLeft]);
 
   // Handle space key for play/pause
   useEffect(() => {
@@ -147,25 +175,24 @@ const KitchenTimer = () => {
         event.preventDefault();
         handleReset();
       }
+      // Press = (for increment)
+      if (event.code === "Equal") {
+        event.preventDefault();
+        handleIncrement();
+      }
+      // Press -
+      if (event.code === "Minus") {
+        event.preventDefault();
+        handleDecrement();
+      }
     };
 
     window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keypress", handleKeyDown);
+
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("keypress", handleKeyDown);
     };
   }, [handlePlayPause]);
-
-  // Cleanup beep timeouts and sound on unmount
-  useEffect(() => {
-    return () => {
-      clearBeepTimeouts();
-      if (beepSoundRef.current) {
-        beepSoundRef.current.unload();
-      }
-    };
-  }, []);
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
@@ -184,12 +211,12 @@ const KitchenTimer = () => {
           <SevenSegmentDisplay
             value={minutesTens as Digit}
             className="w-16 sm:w-20"
-            isFlashing={isFlashing}
+            isFlashing={timerState === "finished"}
           />
           <SevenSegmentDisplay
             value={minutesOnes as Digit}
             className="w-16 sm:w-20"
-            isFlashing={isFlashing}
+            isFlashing={timerState === "finished"}
           />
 
           <span className="absolute top-0 -translate-y-full right-2 font-semibold text-neutral-600">
@@ -201,12 +228,12 @@ const KitchenTimer = () => {
           <SevenSegmentDisplay
             value={secondsTens as Digit}
             className="w-10 sm:w-12"
-            isFlashing={isFlashing}
+            isFlashing={timerState === "finished"}
           />
           <SevenSegmentDisplay
             value={secondsOnes as Digit}
             className="w-10 sm:w-12"
-            isFlashing={isFlashing}
+            isFlashing={timerState === "finished"}
           />
 
           <span className="absolute top-0 -translate-y-full right-2 font-semibold text-neutral-600">
@@ -216,22 +243,50 @@ const KitchenTimer = () => {
       </div>
 
       {/* Buttons */}
-      {/* Target ALL svgs inside the buttons and set the fill color to neutral-600 */}
       <div className="flex gap-2">
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
                 variant="secondary"
-                onMouseDown={handlePlayPause}
-                className="bg-neutral-100 hover:bg-neutral-200 [&_svg]:fill-neutral-600 [&_svg]:stroke-neutral-600"
+                onMouseDown={handleStartDecrementing}
+                onMouseUp={handleStopDecrementing}
+                onMouseLeave={handleStopDecrementing}
+                className="bg-neutral-100 hover:bg-neutral-200"
+                disabled={timerState !== "idle" || timeLeft === 0}
               >
-                {isPlaying || isFinished ? <Pause /> : <Play />}
+                -5s
               </Button>
             </TooltipTrigger>
             <TooltipContent side="bottom" className="p-1.5 text-xs">
               <div className="inline-flex relative">
-                {isPlaying || isFinished ? "Pause" : "Play"}
+                Decrement 5s
+                <span className="text-[8px] border border-neutral-500 px-[3px] py-[1.5px] rounded-sm ml-1">
+                  -
+                </span>
+              </div>
+            </TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="secondary"
+                onMouseDown={handlePlayPause}
+                className="bg-neutral-100 hover:bg-neutral-200 [&_svg]:fill-neutral-600 [&_svg]:stroke-neutral-600"
+                disabled={timeLeft === 0}
+              >
+                {timerState === "active" || timerState === "finished" ? (
+                  <Pause />
+                ) : (
+                  <Play />
+                )}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="p-1.5 text-xs">
+              <div className="inline-flex relative">
+                {timerState === "active" || timerState === "finished"
+                  ? "Pause"
+                  : "Play"}
                 <span className="text-[8px] border border-neutral-500 px-[3px] py-[1.5px] rounded-sm ml-1">
                   space
                 </span>
@@ -245,6 +300,7 @@ const KitchenTimer = () => {
                 variant="secondary"
                 onMouseDown={handleReset}
                 className="bg-neutral-100 hover:bg-neutral-200 [&_svg]:stroke-neutral-600"
+                disabled={timeLeft === 0}
               >
                 <RotateCcw className="size-4 stroke-3" />
               </Button>
@@ -258,6 +314,27 @@ const KitchenTimer = () => {
               </div>
             </TooltipContent>
           </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="secondary"
+                onMouseDown={handleStartIncrementing}
+                onMouseUp={handleStopIncrementing}
+                onMouseLeave={handleStopIncrementing}
+                className="bg-neutral-100 hover:bg-neutral-200"
+                disabled={timerState !== "idle"}
+              >
+                +5s
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" className="p-1.5 text-xs">
+              <div className="inline-flex relative">Increment 5s</div>
+              <span className="text-[8px] border border-neutral-500 px-[3px] py-[1.5px] rounded-sm ml-1">
+                +
+              </span>
+            </TooltipContent>
+          </Tooltip>
         </TooltipProvider>
       </div>
     </div>
@@ -265,7 +342,7 @@ const KitchenTimer = () => {
 };
 
 const SevenSegmentDisplay = ({
-  value,
+  value: controlledValue,
   className,
   isFlashing,
 }: {
@@ -273,6 +350,25 @@ const SevenSegmentDisplay = ({
   className?: string;
   isFlashing?: boolean;
 }) => {
+  const [value, setValue] = useState<Digit | undefined>(controlledValue);
+
+  useEffect(() => {
+    setValue(controlledValue);
+  }, [controlledValue]);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null;
+    if (isFlashing) {
+      interval = setInterval(() => {
+        setValue(value === undefined ? 0 : undefined);
+      }, 750);
+    }
+
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isFlashing, value]);
+
   // 7-segment display patterns for digits 0-9
   const SEGMENT_PATTERNS = {
     0: [true, true, true, true, true, true, false],
@@ -289,7 +385,7 @@ const SevenSegmentDisplay = ({
 
   // If value is undefined, turn off all segments
   const segments =
-    value !== undefined && !isFlashing
+    value !== undefined
       ? SEGMENT_PATTERNS[value]
       : [false, false, false, false, false, false, false];
 

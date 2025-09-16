@@ -20,7 +20,7 @@ const KitchenTimerPage = () => {
           A kitchen timer component built with svg
         </h2>
 
-        <Card className="mt-8 min-h-96 p-6 flex items-center justify-center">
+        <Card className="mt-8 min-h-96 p-6 flex items-center justify-center relative">
           <KitchenTimer />
         </Card>
 
