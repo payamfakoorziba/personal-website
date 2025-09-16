@@ -23,14 +23,15 @@ export default async function Image() {
       // ImageResponse JSX element
       <div
         style={{
-          fontSize: 128,
-          background: "white",
+          fontSize: 64,
+          background: "#fafafa",
           width: "100%",
           height: "100%",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "var(--background)",
+          color: "#262626",
+          fontWeight: "bold",
         }}
       >
         Motion Patterns
