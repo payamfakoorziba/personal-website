@@ -300,7 +300,7 @@ const KitchenTimer = () => {
                 variant="secondary"
                 onMouseDown={handleReset}
                 className="bg-neutral-100 hover:bg-neutral-200 [&_svg]:stroke-neutral-600"
-                disabled={timeLeft === 0}
+                disabled={timeLeft === 0 && timerState === "idle"}
               >
                 <RotateCcw className="size-4 stroke-3" />
               </Button>
