@@ -60,13 +60,13 @@ const KitchenTimer = () => {
     beepTimeoutsRef.current.push(pauseTimeoutId);
   };
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     clearBeepTimeouts();
     setTimerState("idle");
     setTimeLeft(0);
-  };
+  }, []);
 
-  const handlePlayPause = () => {
+  const handlePlayPause = useCallback(() => {
     if (timeLeft === 0) return;
     playBeep();
     clearBeepTimeouts();
@@ -75,57 +75,57 @@ const KitchenTimer = () => {
     } else {
       setTimerState(timerState === "active" ? "idle" : "active");
     }
-  };
+  }, [timerState, timeLeft]);
 
-  const handleIncrement = () => {
+  const handleIncrement = useCallback(() => {
+    if (timerState !== "idle") return;
     const newTimeLeft = timeLeft + 5;
     setTimeLeft(newTimeLeft);
-  };
+  }, [timeLeft]);
 
-  const handleStartIncrementing = () => {
-    const newTimeLeft = timeLeft + 5;
-    setTimeLeft(newTimeLeft);
+  const handleStartIncrementing = useCallback(() => {
+    handleIncrement();
 
     // Start incrementing after a short delay
     const timeoutId = setTimeout(() => {
       buttonMouseDownIntervalRef.current = setInterval(() => {
-        setTimeLeft((time) => time + 5);
+        handleIncrement();
       }, 100);
     }, 300);
     buttonMouseDownIntervalRef.current = timeoutId;
-  };
+  }, [timeLeft, timerState]);
 
-  const handleStopIncrementing = () => {
+  const handleStopIncrementing = useCallback(() => {
     if (buttonMouseDownIntervalRef.current) {
       clearInterval(buttonMouseDownIntervalRef.current);
       buttonMouseDownIntervalRef.current = null;
     }
-  };
+  }, []);
 
-  const handleDecrement = () => {
+  const handleDecrement = useCallback(() => {
+    if (timerState !== "idle" || timeLeft === 0) return;
     const newTimeLeft = Math.max(0, timeLeft - 5);
     setTimeLeft(newTimeLeft);
-  };
+  }, [timeLeft, timerState]);
 
-  const handleStartDecrementing = () => {
-    const newTimeLeft = Math.max(0, timeLeft - 5);
-    setTimeLeft(newTimeLeft);
+  const handleStartDecrementing = useCallback(() => {
+    handleDecrement();
 
     // Start incrementing after a short delay
     const timeoutId = setTimeout(() => {
       buttonMouseDownIntervalRef.current = setInterval(() => {
-        setTimeLeft((time) => Math.max(0, time - 5));
+        handleDecrement();
       }, 100);
     }, 300);
     buttonMouseDownIntervalRef.current = timeoutId;
-  };
+  }, [timeLeft, timerState]);
 
-  const handleStopDecrementing = () => {
+  const handleStopDecrementing = useCallback(() => {
     if (buttonMouseDownIntervalRef.current) {
       clearInterval(buttonMouseDownIntervalRef.current);
       buttonMouseDownIntervalRef.current = null;
     }
-  };
+  }, []);
 
   useEffect(() => {
     // Initialize the beep sound
@@ -175,7 +175,7 @@ const KitchenTimer = () => {
         event.preventDefault();
         handleReset();
       }
-      // Press = (for increment)
+      // Press =/+ (for increment)
       if (event.code === "Equal") {
         event.preventDefault();
         handleIncrement();
@@ -192,7 +192,7 @@ const KitchenTimer = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [handlePlayPause]);
+  }, [handlePlayPause, handleReset, handleIncrement, handleDecrement]);
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
