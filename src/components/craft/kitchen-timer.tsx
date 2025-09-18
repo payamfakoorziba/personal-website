@@ -340,9 +340,9 @@ const KitchenTimer = () => {
       </div>
 
       {/* Debug info */}
-      <div className="text-xs text-neutral-500 absolute bottom-2 left-2">
+      {/* <div className="text-xs text-neutral-500 absolute bottom-2 left-2">
         {timerState} {timeLeft}
-      </div>
+      </div> */}
     </div>
   );
 };
