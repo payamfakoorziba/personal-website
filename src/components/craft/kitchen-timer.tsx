@@ -79,9 +79,9 @@ const KitchenTimer = () => {
 
   const handleIncrement = useCallback(() => {
     if (timerState !== "idle") return;
-    const newTimeLeft = timeLeft + 5;
-    setTimeLeft(newTimeLeft);
-  }, [timeLeft]);
+    console.log("handleIncrement");
+    setTimeLeft((prevTimeLeft) => prevTimeLeft + 5);
+  }, [timerState]);
 
   const handleStartIncrementing = useCallback(() => {
     handleIncrement();
@@ -93,7 +93,7 @@ const KitchenTimer = () => {
       }, 100);
     }, 300);
     buttonMouseDownIntervalRef.current = timeoutId;
-  }, [timeLeft, timerState]);
+  }, [handleIncrement]);
 
   const handleStopIncrementing = useCallback(() => {
     if (buttonMouseDownIntervalRef.current) {
@@ -103,10 +103,12 @@ const KitchenTimer = () => {
   }, []);
 
   const handleDecrement = useCallback(() => {
-    if (timerState !== "idle" || timeLeft === 0) return;
-    const newTimeLeft = Math.max(0, timeLeft - 5);
-    setTimeLeft(newTimeLeft);
-  }, [timeLeft, timerState]);
+    if (timerState !== "idle") return;
+    setTimeLeft((prevTimeLeft) => {
+      if (prevTimeLeft === 0) return prevTimeLeft;
+      return Math.max(0, prevTimeLeft - 5);
+    });
+  }, [timerState]);
 
   const handleStartDecrementing = useCallback(() => {
     handleDecrement();
@@ -118,7 +120,7 @@ const KitchenTimer = () => {
       }, 100);
     }, 300);
     buttonMouseDownIntervalRef.current = timeoutId;
-  }, [timeLeft, timerState]);
+  }, [handleDecrement]);
 
   const handleStopDecrementing = useCallback(() => {
     if (buttonMouseDownIntervalRef.current) {
@@ -293,7 +295,6 @@ const KitchenTimer = () => {
               </div>
             </TooltipContent>
           </Tooltip>
-
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
@@ -336,6 +337,11 @@ const KitchenTimer = () => {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
+      </div>
+
+      {/* Debug info */}
+      <div className="text-xs text-neutral-500 absolute bottom-2 left-2">
+        {timerState} {timeLeft}
       </div>
     </div>
   );
