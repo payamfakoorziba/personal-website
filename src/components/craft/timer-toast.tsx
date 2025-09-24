@@ -10,12 +10,20 @@ import { X } from "lucide-react";
 const TimerToast = () => {
   const { timerState, timeLeft } = useTimer();
   const [show, setShow] = useState(false);
+  const [isDismissed, setIsDismissed] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
   useEffect(() => {
-    setShow(timerState === "active" && pathname !== "/craft/kitchen-timer");
-  }, [timerState, pathname]);
+    setShow(
+      timerState === "active" &&
+        pathname !== "/craft/kitchen-timer" &&
+        !isDismissed
+    );
+    if (pathname === "/craft/kitchen-timer") {
+      setIsDismissed(false);
+    }
+  }, [timerState, pathname, isDismissed]);
 
   return (
     <div className="fixed bottom-4 right-4">
@@ -34,6 +42,7 @@ const TimerToast = () => {
               onClick={(e) => {
                 e.stopPropagation();
                 setShow(false);
+                setIsDismissed(true);
               }}
             >
               <X className="size-5" />
