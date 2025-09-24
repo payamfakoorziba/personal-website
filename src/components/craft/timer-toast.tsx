@@ -25,7 +25,7 @@ const TimerToast = () => {
             initial={{ opacity: 0, x: "100%" }}
             animate={{ opacity: 1, x: "0%" }}
             exit={{ opacity: 0, x: "100%" }}
-            className="bg-white dark:bg-neutral-900 p-10 rounded-xl shadow-lg scale-50 origin-bottom-right relative"
+            className="bg-white dark:bg-neutral-900 p-10 rounded-2xl shadow-lg scale-50 origin-bottom-right relative"
             onClick={() => router.push("/craft/kitchen-timer")}
           >
             <TimerDisplay timeLeft={timeLeft} isFlashing={false} />
