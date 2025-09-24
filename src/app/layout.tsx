@@ -4,6 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/next";
+import TimerProvider from "@/contexts/timer-context";
+import TimerToast from "@/components/craft/timer-toast";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -29,7 +31,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${geistMono.variable} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-          {children}
+          <TimerProvider>
+            {children}
+            <TimerToast />
+          </TimerProvider>
           <Analytics />
           <Toaster />
         </ThemeProvider>

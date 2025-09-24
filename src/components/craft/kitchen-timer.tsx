@@ -11,16 +11,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
+import { useTimer } from "@/contexts/timer-context";
 
 type Digit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
 const DEFAULT_TIME = 10;
 
 const KitchenTimer = () => {
-  const [timerState, setTimerState] = useState<"idle" | "active" | "finished">(
-    "idle"
-  );
-  const [timeLeft, setTimeLeft] = useState(DEFAULT_TIME); // 5 seconds
+  const { timerState, setTimerState, timeLeft, setTimeLeft } = useTimer();
   const beepTimeoutsRef = useRef<NodeJS.Timeout[]>([]);
   const beepSoundRef = useRef<Howl | null>(null);
   const buttonMouseDownIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -79,7 +77,6 @@ const KitchenTimer = () => {
 
   const handleIncrement = useCallback(() => {
     if (timerState !== "idle") return;
-    console.log("handleIncrement");
     setTimeLeft((prevTimeLeft) => prevTimeLeft + 5);
   }, [timerState]);
 
@@ -138,32 +135,29 @@ const KitchenTimer = () => {
     });
     beepSoundRef.current = beepSound;
 
+    // Initialize the time (only on mount)
+    if (timerState !== "active") {
+      setTimeLeft(DEFAULT_TIME);
+    }
+
     // Clean up
     return () => {
       clearBeepTimeouts();
       if (beepSoundRef.current) {
         beepSoundRef.current.unload();
       }
+      if (timerState === "finished") {
+        setTimerState("idle");
+        setTimeLeft(0);
+      }
     };
   }, []);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout | null = null;
-    if (timerState !== "active") return;
-
-    if (timeLeft > 0) {
-      interval = setInterval(() => {
-        setTimeLeft((time) => time - 1);
-      }, 1000);
-    } else if (timeLeft === 0) {
-      setTimerState("finished");
+    if (timerState === "finished") {
       playFinishedBeeps(); // Play the kitchen timer beep pattern
     }
-
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [timerState, timeLeft]);
+  }, [timerState]);
 
   // Handle space key for play/pause
   useEffect(() => {
@@ -196,53 +190,13 @@ const KitchenTimer = () => {
     };
   }, [handlePlayPause, handleReset, handleIncrement, handleDecrement]);
 
-  const minutes = Math.floor(timeLeft / 60);
-  const seconds = timeLeft % 60;
-
-  const minutesTens = Math.floor(minutes / 10);
-  const minutesOnes = minutes % 10;
-  const secondsTens = Math.floor(seconds / 10);
-  const secondsOnes = seconds % 10;
-
   return (
     <div className="flex flex-col gap-4 items-center">
       {/* Main timer */}
-      <div className="flex items-end gap-2">
-        {/* Minutes */}
-        <div className="flex relative">
-          <SevenSegmentDisplay
-            value={minutesTens as Digit}
-            className="w-16 sm:w-20"
-            isFlashing={timerState === "finished"}
-          />
-          <SevenSegmentDisplay
-            value={minutesOnes as Digit}
-            className="w-16 sm:w-20"
-            isFlashing={timerState === "finished"}
-          />
-
-          <span className="absolute top-0 -translate-y-full right-2 font-semibold text-neutral-600">
-            M
-          </span>
-        </div>
-        {/* Seconds */}
-        <div className="flex relative">
-          <SevenSegmentDisplay
-            value={secondsTens as Digit}
-            className="w-10 sm:w-12"
-            isFlashing={timerState === "finished"}
-          />
-          <SevenSegmentDisplay
-            value={secondsOnes as Digit}
-            className="w-10 sm:w-12"
-            isFlashing={timerState === "finished"}
-          />
-
-          <span className="absolute top-0 -translate-y-full right-2 font-semibold text-neutral-600">
-            S
-          </span>
-        </div>
-      </div>
+      <TimerDisplay
+        timeLeft={timeLeft}
+        isFlashing={timerState === "finished"}
+      />
 
       {/* Buttons */}
       <div className="flex gap-2">
@@ -343,6 +297,63 @@ const KitchenTimer = () => {
       {/* <div className="text-xs text-neutral-500 absolute bottom-2 left-2">
         {timerState} {timeLeft}
       </div> */}
+    </div>
+  );
+};
+
+export const TimerDisplay = ({
+  timeLeft,
+  isFlashing,
+  className,
+}: {
+  timeLeft: number;
+  isFlashing: boolean;
+  className?: string;
+}) => {
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
+
+  const minutesTens = Math.floor(minutes / 10);
+  const minutesOnes = minutes % 10;
+  const secondsTens = Math.floor(seconds / 10);
+  const secondsOnes = seconds % 10;
+
+  return (
+    <div className={cn("flex items-end gap-2", className)}>
+      {/* Minutes */}
+      <div className="flex relative">
+        <SevenSegmentDisplay
+          value={minutesTens as Digit}
+          className="w-16 sm:w-20"
+          isFlashing={isFlashing}
+        />
+        <SevenSegmentDisplay
+          value={minutesOnes as Digit}
+          className="w-16 sm:w-20"
+          isFlashing={isFlashing}
+        />
+
+        <span className="absolute top-0 -translate-y-full right-2 font-semibold text-neutral-600">
+          M
+        </span>
+      </div>
+      {/* Seconds */}
+      <div className="flex relative">
+        <SevenSegmentDisplay
+          value={secondsTens as Digit}
+          className="w-10 sm:w-12"
+          isFlashing={isFlashing}
+        />
+        <SevenSegmentDisplay
+          value={secondsOnes as Digit}
+          className="w-10 sm:w-12"
+          isFlashing={isFlashing}
+        />
+
+        <span className="absolute top-0 -translate-y-full right-2 font-semibold text-neutral-600">
+          S
+        </span>
+      </div>
     </div>
   );
 };
