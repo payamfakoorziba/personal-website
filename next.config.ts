@@ -1,6 +1,6 @@
 import createMDX from "@next/mdx";
 import { rehypePrettyCode } from "rehype-pretty-code";
-import type { NextConfig } from "next";
+import NextConfig from "next";
 
 const nextConfig: NextConfig = {
   pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
   //   unoptimized: true,
   // },
   // TODO: look into why the styling is not working
-  devIndicators: false,
+  // devIndicators: false,
   async redirects() {
     return [
       {
