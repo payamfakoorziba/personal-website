@@ -67,10 +67,10 @@ export default function ConnectSection() {
             label: "LinkedIn",
             href: "https://www.linkedin.com/in/payam-fakoorziba-b115071b3/",
           },
-          {
-            label: "Instagram",
-            href: "https://www.instagram.com/payamfkz/",
-          },
+          // {
+          //   label: "Instagram",
+          //   href: "https://www.instagram.com/payamfkz/",
+          // },
           {
             label: "GitHub",
             href: "https://github.com/payamfakoorziba",
