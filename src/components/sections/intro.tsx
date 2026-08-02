@@ -19,7 +19,7 @@ export default function IntroSection() {
 
         <p className="flex items-center">
           <span className="inline-flex items-center gap-1.5">
-            <span>Currently building</span>
+            <span>Building</span>
             <Link
               href="https://usebogi.com"
               target="_blank"
